@@ -32,3 +32,5 @@ def trapezoid(f, partitions, a,b):
 
 		
 print midpointRiemann(math.exp, 2, 1, 2)
+
+# testing commit in ubuntu (hg)
