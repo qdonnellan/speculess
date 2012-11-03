@@ -7,7 +7,7 @@ from lensOps import getLens
 import comments
 import database
 import logging
-import lensUseStats
+import lensUses
 import userBag
 
 
@@ -18,8 +18,8 @@ class MainPage(MainHandler):
 class lensInfo(MainHandler):    
     def get(self, lensID): 
         lens = getLens(lensID, lensList)
-        bigUses, smallUses = lensUseStats.getRefinedUseList(lensID)
-        allUses = database.getAllUses(lensID)        
+        bigUses, smallUses = lensUses.getRefinedUseList(lensID)
+        allUses = lensUses.getAllUses(lensID)        
         listAllUses = []
         for use in allUses:
             listAllUses.append("%s" % str(use.lensUse))
@@ -42,7 +42,7 @@ class lensInfo(MainHandler):
             self.redirect('/lens/%s' % lensID)
         elif 'userImpression' in self.request.POST:
             impression = self.request.get('newImpression')
-            database.newComment(lensID=lensID, comment=impression, userID='randomUser')
+            comments.newComment(lensID=lensID, comment=impression, userID='randomUser')
             self.redirect('/lens/%s' % lensID)
 
 class lensBag(MainHandler):

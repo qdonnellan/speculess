@@ -1,8 +1,21 @@
-import database
+from database import lensComments
+from google.appengine.api import memcache
 
 def getComments(lensID):
-	comments = database.getComments(lensID)
-	return comments
+	commentObject = memcache.get('commentsFor' + lensID)
+	if commentObject is None:
+		commentObject = lensComments.all().filter('lensID = ', lensID)
+		memcache.set('commentsFor' + lensID, commentObject)
+	return commentObject
+
+def newComment(lensID, comment, userID):
+	commentObject = lensComments(
+		lensID = lensID, 
+		comment = comment,
+		userID = userID, 
+		count = 1 )
+	commentObject.put()
+	memcache.delete('commentsFor' + lensID)
 
 def getThreeColumnComments(lensID):
 	comments = getComments(lensID)
