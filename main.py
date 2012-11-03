@@ -30,7 +30,7 @@ class lensInfo(MainHandler):
                 bigUses = bigUses, 
                 smallUses = smallUses,
                 listAllUses = listAllUses,
-                comments = comments.getComments(lensID),
+                columnComments = comments.getThreeColumnComments(lensID),
                 lensStatus = userBag.lensStatus(userID='testUser', lensID = lensID))
         else:
             self.redirect('/')

@@ -22,60 +22,29 @@
 				</div>
 			</div>	
 			<div>
+				{% for column in columnComments %}
 				<div class="span4">
 					<ul class="thumbnails">				
-						{% for comment in comments[0:4] %}
+						{% for comment in column %}
 						<li class = "thumbnail span12">					
 							<div style="font-size:20pt; padding:8px; font-family: 'Open Sans Condensed', sans-serif; line-height:100%">
 								{{ comment.comment }}
 							</div>
 							<div style="margin:0px -5px -5px -5px; background:#111; padding:8px">
-								<p class="pull-right text-warning" style="font-family: 'Open Sans Condensed', sans-serif; font-size:20pt;">
-									123
-								</p>
+								<div class="pull-right" style="text-align:center">
+									<p class="pull-right text-warning" style="font-family: 'Open Sans Condensed', sans-serif; font-size:20pt;">
+										123
+									</p>
+									<p style="padding:0; margin:0">useful</p>
+								</div>
 								<p class="frontNailCardHead">{{comment.userID}}</p>
 								<p class="frontNailCardInfo">check out the full review here</p>
 							</div>
 						</li>
 						{% endfor %}				
 					</ul>
-				</div>
-				<div class="span4">
-					<ul class="thumbnails">				
-						{% for comment in comments[4:8] %}
-						<li class = "thumbnail span12">					
-							<div style="font-size:20pt; padding:8px; font-family: 'Open Sans Condensed', sans-serif; line-height:100%">
-								{{ comment.comment }}
-							</div>
-							<div style="margin:0px -5px -5px -5px; background:#111; padding:8px">
-								<p class="pull-right text-warning" style="font-family: 'Open Sans Condensed', sans-serif; font-size:20pt;">
-									123
-								</p>
-								<p class="frontNailCardHead">{{comment.userID}}</p>
-								<p class="frontNailCardInfo">check out the full review here</p>
-							</div>
-						</li>
-						{% endfor %}				
-					</ul>	
-				</div>
-				<div class="span4">
-					<ul class="thumbnails">				
-						{% for comment in comments[8:12] %}
-						<li class = "thumbnail span12">					
-							<div style="font-size:20pt; padding:8px; font-family: 'Open Sans Condensed', sans-serif; line-height:100%">
-								{{ comment.comment }}
-							</div>
-							<div style="margin:0px -5px -5px -5px; background:#111; padding:8px">
-								<p class="pull-right text-warning" style="font-family: 'Open Sans Condensed', sans-serif; font-size:20pt;">
-									123
-								</p>
-								<p class="frontNailCardHead">{{comment.userID}}</p>
-								<p class="frontNailCardInfo">check out the full review here</p>
-							</div>
-						</li>
-						{% endfor %}				
-					</ul>	
-				</div>
+				</div>	
+				{% endfor %}			
 			</div>	
 		</div>
 		<div class="span3">			
