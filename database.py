@@ -1,6 +1,4 @@
 from google.appengine.ext import db
-from google.appengine.api import memcache
-import logging
 
 class lensUses(db.Model): 
 	lensID = db.StringProperty(required = True)
