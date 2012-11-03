@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+{% block body %}
+	<div class = "row-fluid">		
+		<div class="span9">
+			<h3>User Impressions<small> what the community thinks about this lens</small></h3>
+			<div class="accordion" id = "accordion2">
+				<div class="accordion-group">
+					<div class="accordion-heading">
+						<a class="accordion-toggle" data-toggle="collapse" data-parent="accordion2" href="#collapseOne"><i class="icon-pencil"></i>
+						Add your own impression...
+						</a>
+					</div>
+					<div id="collapseOne" class="accordion-body collapse">
+						<div class="accordion-inner">
+							<form method = "post">
+								<label class="text-info"><strong>In less than 300 characters,</strong> tell us what you think about this lens</label>
+								<textarea row="3" class="span6" name="newImpression"></textarea> <br>
+								<button type="submit" class="btn" name="userImpression">Contribute!</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>	
+			<div>
+				<div class="span4">
+					<ul class="thumbnails">				
+						{% for comment in comments[0:4] %}
+						<li class = "thumbnail span12">					
+							<div style="font-size:20pt; padding:8px; font-family: 'Open Sans Condensed', sans-serif; line-height:100%">
+								{{ comment.comment }}
+							</div>
+							<div style="margin:0px -5px -5px -5px; background:#111; padding:8px">
+								<p class="pull-right text-warning" style="font-family: 'Open Sans Condensed', sans-serif; font-size:20pt;">
+									123
+								</p>
+								<p class="frontNailCardHead">{{comment.userID}}</p>
+								<p class="frontNailCardInfo">check out the full review here</p>
+							</div>
+						</li>
+						{% endfor %}				
+					</ul>
+				</div>
+				<div class="span4">
+					<ul class="thumbnails">				
+						{% for comment in comments[4:8] %}
+						<li class = "thumbnail span12">					
+							<div style="font-size:20pt; padding:8px; font-family: 'Open Sans Condensed', sans-serif; line-height:100%">
+								{{ comment.comment }}
+							</div>
+							<div style="margin:0px -5px -5px -5px; background:#111; padding:8px">
+								<p class="pull-right text-warning" style="font-family: 'Open Sans Condensed', sans-serif; font-size:20pt;">
+									123
+								</p>
+								<p class="frontNailCardHead">{{comment.userID}}</p>
+								<p class="frontNailCardInfo">check out the full review here</p>
+							</div>
+						</li>
+						{% endfor %}				
+					</ul>	
+				</div>
+				<div class="span4">
+					<ul class="thumbnails">				
+						{% for comment in comments[8:12] %}
+						<li class = "thumbnail span12">					
+							<div style="font-size:20pt; padding:8px; font-family: 'Open Sans Condensed', sans-serif; line-height:100%">
+								{{ comment.comment }}
+							</div>
+							<div style="margin:0px -5px -5px -5px; background:#111; padding:8px">
+								<p class="pull-right text-warning" style="font-family: 'Open Sans Condensed', sans-serif; font-size:20pt;">
+									123
+								</p>
+								<p class="frontNailCardHead">{{comment.userID}}</p>
+								<p class="frontNailCardInfo">check out the full review here</p>
+							</div>
+						</li>
+						{% endfor %}				
+					</ul>	
+				</div>
+			</div>	
+		</div>
+		<div class="span3">			
+			<div>
+				<ul class="thumbnails">
+					<li class="frontNail thumbnail span12" style="margin-left: 0px">
+						<div style = "text-align:center;">			
+							<div style="display:{{ lensStatus.statusLinks }}">				
+								<a href="/myBag?changeBag=haveIt|{{lens.id}}">
+									<span class="btn btn-mini btn-success">have it</span></a>
+								<a href="/myBag?changeBag=wantIt|{{lens.id}}">
+									<span class="btn btn-mini btn-info">want it</span>
+								</a>
+								<a href="/myBag?changeBag=doNotWant|{{lens.id}}">
+									<span class="btn btn-mini btn-danger">don't want</span>
+								</a>
+							</div>
+							<div style="display:{{ lensStatus.changeStatusLink}}" >
+								<a class="btn btn-mini btn-{{lensStatus.bootstrapColor}}" href="/myBag?changeBag=clearStatus|{{lens.id}}" rel="tooltip" title="has something changed? click here to change!" data-placement="bottom">
+									<i class="icon icon-white icon-{{lensStatus.icon}}"></i> YOU {{ lensStatus.status }} THIS LENS
+								</a>
+							</div>									
+						</div>				
+						<div class="frontNailDiv">
+							<div>			
+								<img src={{lens.img}} alt="">	
+							</div>				
+							<div class="lensPageCard">
+								<div class="progress" style="margin-top:-2px">
+									<div class="bar bar-success" style="width: 35%;"></div>
+									<div class="bar" style = "width:15%;"></div>
+									<div class="bar bar-danger" style = "width:5%;"></div>			
+								</div>
+								<div style="margin-top:-20px; font-size:8pt">				
+									<span class="text-success">35% have it</span>
+									<span class="muted"><strong>-</strong></span>
+									<span class="text-info">15% want it</span>
+									<span class="muted"><strong>-</strong></span>
+									<span class="text-error">5% don't want it</span>		
+								</div>
+								<p class="frontNailCardHead">
+									{{lens.man.upper()}}
+								</p>
+								<p class="frontNailCardInfo">
+									{{lens.name}}
+								</p>
+								<div>
+									<a class="btn btn-inverse shopping" href="">
+										<p class="muted buy-at">buy at</p>
+										<div class="progress">
+											<div class="bar" style="width: 100%; background:#E47911"></div>		
+										</div>
+										<p class="vendor-name">Amazon</p>
+									</a>
+									<a class="btn btn-inverse shopping" href="">
+										<p class="muted buy-at">buy at</p>
+										<div class="progress">
+											<div class="bar" style="width: 100%; background:#DF0101"></div>		
+										</div>
+										<p class="vendor-name">B&H Photo</p>
+									</a>
+								</div>		
+							</div>							
+						</div>										
+					</li>					
+				</ul>
+			</div>
+			<div style="text-align:center; margin-top:-20px">
+			<h5>Popular Uses</h5>
+			</div>
+			{% for use in bigUses %}
+				<div class="progress" style="margin:2px">						
+					<div class="bar" style="width: {{use.percent}}%;">
+						<span class="pull-right" style="padding-right:2px">{{use.useName}} ({{use.percent}}%)</span>
+					</div>
+				</div>
+			{% endfor %}
+			{% for use in smallUses %}
+				<div class="progress" style="margin:2px">						
+					<div class="bar" style="width: {{use.percent}}%;"></div>
+					<span style="font-size:8pt; padding:2px">{{use.useName}} ({{use.percent}}%)</span>
+				</div>
+			{% endfor %}
+			<div style="text-align:center;">
+			<h5>What do you use it for?</h5>
+			</div>
+			<form method = "post" class="form-inline">
+				<input type="text" placeholder="20 character max" name = "newUse">
+				<button type="submit" class="btn" name="userUse">Contribute</button>
+			</form>						
+		</div>		
+	</div>
+	
+
+{% endblock %}

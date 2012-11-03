@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block body %}
+	<div class="row-fluid">
+		<ul class="thumbnails">
+			{% for lens in lenses %}
+			<li class="frontNail span3">
+				<a class="thumbnail" href="/lens/{{lens.id}}">				
+				<div class="frontNailDiv">	
+					<div style="height:120px; overflow:hidden">			
+						<img src={{lens.img}} alt="">	
+					</div>				
+					<div class="frontNailCard">
+						<div class="progress" style="height:7px; margin-top:-2px">
+							<div class="bar bar-success" style="width: 35%;"></div>
+							<div class="bar" style = "width:15%;"></div>
+							<div class="bar bar-danger" style = "width:5%;"></div>			
+						</div>
+						<p class="frontNailCardHead">
+							{{lens.man.upper()}}
+						</p>
+						<p class="frontNailCardInfo">
+							{{lens.name}}
+						</p>								
+					</div>	
+				</div>
+				</a>				
+			</li>
+			{% endfor %}
+		</ul>
+	</div>	
+
+{% endblock %}
