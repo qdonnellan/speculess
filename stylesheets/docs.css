@@ -39,13 +39,18 @@
 .frontNailCardHead {  
   color:#666;
   font-size:14pt;
-  margin:0px;
+  margin:0px 0px 4px 0px;
 }
 
 .frontNailCardInfo {
   color:#CCC; 
   font-size:12px
 }
+
+.frontNailCardInfo a {
+  color:#08C;
+}
+
 
 .shopping {
   padding:0px;

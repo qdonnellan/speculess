@@ -19,18 +19,11 @@ class MainPage(MainHandler):
 class lensInfo(MainHandler):    
     def get(self, lensID):
         localUser = localUsers.localUser() 
-        lens = getLens(lensID)
-        bigUses, smallUses = lensUses.getRefinedUseList(lensID)
-        allUses = lensUses.getAllUses(lensID)        
-        listAllUses = []
-        for use in allUses:
-            listAllUses.append("%s" % str(use.lensUse))
+        lens = getLens(lensID)                
         if lens is not None:       
             self.render('lensPage.html', 
-                lens = lens, 
-                bigUses = bigUses, 
-                smallUses = smallUses,
-                listAllUses = listAllUses,
+                lens = lens,  
+                userComment = comments.userComment(lensID, localUser),               
                 columnComments = comments.getThreeColumnComments(lensID),
                 lensStatus = userBag.lensStatus(localUser, lensID = lensID))
         else:
@@ -42,8 +35,9 @@ class lensInfo(MainHandler):
             database.newUse(lensID=lensID, use = userInput)
             self.redirect('/lens/%s' % lensID)
         elif 'userImpression' in self.request.POST:
-            impression = self.request.get('newImpression')         
-            comments.newComment(lensID=lensID, comment=impression, user = localUsers.localUser())
+            impression = self.request.get('newImpression')
+            reviewLink = self.request.get('reviewLink')         
+            comments.newComment(lensID=lensID, comment=impression, user = localUsers.localUser(), reviewLink=reviewLink)
             self.redirect('/lens/%s' % lensID)
 
 class lensBag(MainHandler):
@@ -55,6 +49,13 @@ class lensBag(MainHandler):
                 newBagStatus, lensID = changeBag.split('|')
                 userBag.changeUserBag(localUser.id, newBagStatus, lensID)
                 self.redirect('/lens/%s' % lensID)
+
+class likeLens(MainHandler):
+    def get(self, lensID=None, userID = None):
+        if lensID is not None and userID is not None:
+            comments.likeComment(lensID, userID)
+        self.redirect('/lens/%s' % lensID)
+
 
 class userProfile(MainHandler):
     def get(self):
@@ -84,6 +85,7 @@ class userAuth(MainHandler):
 app = webapp2.WSGIApplication([
     ('/lens/(\w+)', lensInfo),
     ('/authenticate', userAuth),
+    ('/like/lens/(\w+)/(\w+)', likeLens),
     ('/profile', userProfile),
     ('/myBag', lensBag),
     ('.*', MainPage),

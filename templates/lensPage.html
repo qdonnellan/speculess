@@ -5,7 +5,10 @@
 			<h3>User Impressions<small> what the community thinks about this lens</small></h3>
 
 			<!-- Button to trigger modal -->
-			<a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal" style="display:{{ localUser.displayUser}}">Add your own impression</a> 
+			<a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal" style="display:{{ localUser.displayUser}}">
+				<span style="display:{{userComment.displayAlt}}">Add your own impression</span>
+				<span style="display:{{userComment.display}}">Change your existing impression</span>
+			</a> 
 			<!-- Modal -->
 			<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class="modal-header">
@@ -17,11 +20,14 @@
 					<div class="modal-body">					
 							<label><strong>In less than 200 characters,</strong> tell us what you think about this lens</label>
 							
-							<textarea row="10" class="span12" name="newImpression" onblur="textCounter(this,this.form.counter,200);" onkeyup="textCounter(this,this.form.counter,200);"></textarea>	
+							<textarea row="10" class="span12" name="newImpression" onblur="textCounter(this,this.form.counter,200);" onkeyup="textCounter(this,this.form.counter,200);">{{ userComment.comment }}</textarea>	
 							<input class="btn btn-primary disabled" onblur="textCounter(this.form.recipients,this,200);" disabled  onfocus="this.blur();" value="200" name="counter" style="width:30px; padding:2px ">
-							<span class="muted">characters remaining</span><br><br> <hr>
+							<span class="muted">characters remaining</span>
+							<span class="text-error" style="display:{{ userComment.display }}"> leave blank to delete existing comment</span>
+							<br><br> <hr>
 							<label><strong>Link to your site</strong>, if you've written a detailed review on this lens, link to it here!</label>
-							<input type="text" class="span12" name="reviewLink" placeholder="http://myreviewblog.example.com"></input>
+							<input type="text" class="span12" name="reviewLink" placeholder="http://myreviewblog.example.com" value = "{{userComment.link}}">
+							<label class="muted">Make sure you include "http://", "https://", etc. or your link will not work correctly</label>
 					</div>
 					<div class="modal-footer" style="margin-bottom:-20px">					
 							<button class="btn" data-dismiss="modal" aria-hidden="true">Discard</button>
@@ -40,13 +46,17 @@
 							</div>
 							<div style="margin:0px -5px -5px -5px; background:#111; padding:8px">
 								<div class="pull-right" style="text-align:center">
-									<p class="pull-right text-warning" style="font-family: 'Open Sans Condensed', sans-serif; font-size:20pt;">
-										123
+									<p class="text-warning" style="font-family: 'Open Sans Condensed', sans-serif; font-size:20pt;">
+										{{comment.count}}
 									</p>
-									<p style="padding:0; margin:0">useful</p>
+									<a class="btn btn-mini btn-primary" rel="tooltip" data-placement="bottom" 
+									title="Like this impression if you feel that it is useful" href="/like/lens/{{lens.id}}/{{comment.userID}}">Like</a>
 								</div>
-								<p class="frontNailCardHead">{{comment.userID}}</p>
-								<p class="frontNailCardInfo">check out the full review here</p>
+								<p class="frontNailCardHead">{{comment.userNickname}}</p>
+								<p class="frontNailCardInfo" >
+									<a class="btn btn-small btn-inverse" href="{{comment.reviewLink}}" style="display:{{comment.reviewDisplay}}" target="_blank">Read the full review</a>
+									<span style="color:#111">.</span>
+								</p>								
 							</div>
 						</li>
 						{% endfor %}				
@@ -119,30 +129,7 @@
 						</div>										
 					</li>					
 				</ul>
-			</div>
-			<div style="text-align:center; margin-top:-20px">
-			<h5>Popular Uses</h5>
-			</div>
-			{% for use in bigUses %}
-				<div class="progress" style="margin:2px">						
-					<div class="bar" style="width: {{use.percent}}%;">
-						<span class="pull-right" style="padding-right:2px">{{use.useName}} ({{use.percent}}%)</span>
-					</div>
-				</div>
-			{% endfor %}
-			{% for use in smallUses %}
-				<div class="progress" style="margin:2px">						
-					<div class="bar" style="width: {{use.percent}}%;"></div>
-					<span style="font-size:8pt; padding:2px">{{use.useName}} ({{use.percent}}%)</span>
-				</div>
-			{% endfor %}
-			<div style="text-align:center;">
-			<h5>What do you use it for?</h5>
-			</div>
-			<form method = "post" class="form-inline">
-				<input type="text" placeholder="20 character max" name = "newUse">
-				<button type="submit" class="btn" name="userUse">Contribute</button>
-			</form>						
+			</div>					
 		</div>		
 	</div>
 
