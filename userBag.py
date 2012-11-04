@@ -1,12 +1,17 @@
 from database import userLensBag
+from lensOps import getLens
 from google.appengine.ext import db
 from google.appengine.api import memcache
 import logging
 
-def userBagCacheKey(userID, lensID):
-	return userID + lensID + 'bagInstance'
+def userBagCacheKey(userID, lensID=None):
+	if lensID is not None:
+		return userID + lensID + 'bagInstance'
+	else:
+		return 'userBag' + userID
 
 def changeUserBag(userID, newBagStatus, lensID):
+	logging.info('user bag being changed')
 	if newBagStatus in ['wantIt', 'haveIt', 'doNotWant', 'clearStatus']:
 		bagInstance = getBagInstance(userID, lensID)
 		if bagInstance is not None:
@@ -16,8 +21,41 @@ def changeUserBag(userID, newBagStatus, lensID):
 				userID = userID, 
 				bagStatus = newBagStatus,
 				lensID = lensID)
-		cacheKey = userBagCacheKey(userID, lensID)
-		memcache.set(cacheKey, bagInstance)			
+		bagInstance.put()
+		cacheKey = userBagCacheKey(userID, lensID)	#get the individual lens bag key	
+		memcache.set(cacheKey, bagInstance)	
+		updateUserBag(userID)
+
+def updateUserBag(userID, fetch = False):
+	userBag = userLensBag.all().filter('userID = ', userID)
+	cachedBag = []
+	for lens in userBag:
+		cachedBag.append(lens)		
+	cacheKey = userBagCacheKey(userID)
+	memcache.set(cacheKey, cachedBag)
+	if fetch:
+		return cachedBag
+
+class userBag():
+	def __init__(self, userID):
+		lensList = getUserBagList(userID)
+		haveList = []
+		wantList = []
+		for lens in lensList:
+			if lens.bagStatus == 'haveIt':
+				haveList.append(getLens(lens.lensID))
+			elif lens.bagStatus == 'wantIt':
+				wantList.append(getLens(lens.lensID))
+		self.want = wantList
+		self.have = haveList
+
+def getUserBagList(userID):
+	cacheKey = userBagCacheKey(userID)
+	userBag = memcache.get(cacheKey)
+	if userBag is None:
+		userBag = updateUserBag(userID, fetch=True)
+	return userBag
+
 
 def getBagInstance(userID, lensID):
 	cacheKey = userBagCacheKey(userID, lensID)
@@ -32,18 +70,21 @@ def getBagInstance(userID, lensID):
 	return bagInstance
 
 class lensStatus():
-	def __init__(self, userID, lensID):
-		bagInstance = getBagInstance(userID, lensID)
-		if bagInstance is None:
-			self.statusLinks = 'visible'
-			self.changeStatusLink = 'none'
-		else:
-			self.statusLinks = 'none'
-			statusDict = {'wantIt': 'want', 'haveIt': 'have', 'doNotWant': 'do not want'}
-			self.status = statusDict[bagInstance.bagStatus].upper()
-			self.changeStatusLink = 'visible'
-			bootstrapColorDict = {'wantIt': 'info', 'haveIt': 'success', 'doNotWant': 'danger'}
-			self.bootstrapColor = bootstrapColorDict[bagInstance.bagStatus]
-			bootstrapIconDict = {'wantIt': 'heart', 'haveIt': 'check', 'doNotWant': 'ban-circle'}
-			self.icon = bootstrapIconDict[bagInstance.bagStatus]
+	def __init__(self, user, lensID):
+		if user.exists:
+			bagInstance = getBagInstance(user.id, lensID)
+			if bagInstance is None:
+				self.statusLinks = 'visible'
+				self.changeStatusLink = 'none'
+			else:
+				self.statusLinks = 'none'
+				statusDict = {'wantIt': 'want', 'haveIt': 'have', 'doNotWant': 'do not want'}
+				self.status = statusDict[bagInstance.bagStatus].upper()
+				self.changeStatusLink = 'visible'
+				bootstrapColorDict = {'wantIt': 'info', 'haveIt': 'success', 'doNotWant': 'danger'}
+				self.bootstrapColor = bootstrapColorDict[bagInstance.bagStatus]
+				bootstrapIconDict = {'wantIt': 'heart', 'haveIt': 'check', 'doNotWant': 'ban-circle'}
+				self.icon = bootstrapIconDict[bagInstance.bagStatus]
+
+
 

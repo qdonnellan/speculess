@@ -16,7 +16,7 @@
 	<body>
 		<div class="navbar navbar-fixed-top navbar-inverse">
 			<div class="navbar-inner">
-				<div class="container">
+				<div class="container-fluid">
 					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
 						<span class="icon-bar"></span>
 					</a>
@@ -34,8 +34,9 @@
 							<li style="display:{{ localUser.displayUser}}">
 								<a href="/profile">Profile</a>
 							</li>
+							<li class="divider" style="display:{{ localUser.displayUser }}"></li>
 							<li style="display:{{ localUser.displayUser}}">
-								<a href="{{localUser.logoutUrl |safe }}">Sign Out</a>
+								<a href="{{localUser.logoutUrl |safe }}">Sign Out of Google</a>
 							</li>
 						</ul>
 					</div>

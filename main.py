@@ -3,8 +3,8 @@ from google.appengine.api import memcache
 from google.appengine.ext import db
 from google.appengine.api import users
 from handlers import MainHandler
-from lensList import lensList
 from lensOps import getLens
+from lensList import lensList
 import comments
 import database
 import logging
@@ -17,8 +17,9 @@ class MainPage(MainHandler):
         self.render('front.html', lenses=lensList, homeActive = 'active')
 
 class lensInfo(MainHandler):    
-    def get(self, lensID): 
-        lens = getLens(lensID, lensList)
+    def get(self, lensID):
+        localUser = localUsers.localUser() 
+        lens = getLens(lensID)
         bigUses, smallUses = lensUses.getRefinedUseList(lensID)
         allUses = lensUses.getAllUses(lensID)        
         listAllUses = []
@@ -31,7 +32,7 @@ class lensInfo(MainHandler):
                 smallUses = smallUses,
                 listAllUses = listAllUses,
                 columnComments = comments.getThreeColumnComments(lensID),
-                lensStatus = userBag.lensStatus(userID='testUser', lensID = lensID))
+                lensStatus = userBag.lensStatus(localUser, lensID = lensID))
         else:
             self.redirect('/')
 
@@ -41,24 +42,25 @@ class lensInfo(MainHandler):
             database.newUse(lensID=lensID, use = userInput)
             self.redirect('/lens/%s' % lensID)
         elif 'userImpression' in self.request.POST:
-            impression = self.request.get('newImpression')            
+            impression = self.request.get('newImpression')         
             comments.newComment(lensID=lensID, comment=impression, user = localUsers.localUser())
             self.redirect('/lens/%s' % lensID)
 
 class lensBag(MainHandler):
-    def get(self, userID = 'testUser'):
+    def get(self):
+        localUser = localUsers.localUser()
         changeBag = self.request.get('changeBag')
         if changeBag is not None:
             if '|' in changeBag:
                 newBagStatus, lensID = changeBag.split('|')
-                userBag.changeUserBag(userID, newBagStatus, lensID)
+                userBag.changeUserBag(localUser.id, newBagStatus, lensID)
                 self.redirect('/lens/%s' % lensID)
 
 class userProfile(MainHandler):
     def get(self):
         localUser = localUsers.localUser()
         if localUser.exists:
-            self.render('profile.html')
+            self.render('profile.html', userBag = userBag.userBag(localUser.id))
         else:
             self.redirect('/authenticate?error=you must be logged in for that')
 

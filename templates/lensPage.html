@@ -3,25 +3,33 @@
 	<div class = "row-fluid">		
 		<div class="span9">
 			<h3>User Impressions<small> what the community thinks about this lens</small></h3>
-			<div class="accordion" id = "accordion2" style="display:{{localUser.displayUser}}">
-				<div class="accordion-group">
-					<div class="accordion-heading">
-						<a class="accordion-toggle" data-toggle="collapse" data-parent="accordion2" href="#collapseOne"><i class="icon-pencil"></i>
-						Add your own impression...
-						</a>
-					</div>
-					<div id="collapseOne" class="accordion-body collapse">
-						<div class="accordion-inner">
-							<form method = "post">
-								<label class="text-info"><strong>In less than 300 characters,</strong> tell us what you think about this lens</label>
-								<textarea row="3" class="span6" name="newImpression"></textarea> <br>
-								<button type="submit" class="btn" name="userImpression">Contribute!</button>
-							</form>
-						</div>
-					</div>
+
+			<!-- Button to trigger modal -->
+			<a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal" style="display:{{ localUser.displayUser}}">Add your own impression</a> 
+			<!-- Modal -->
+			<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h3 id="myModalLabel">Your Impression</h3>
+					<h3><small>{{lens.man }} | {{ lens.name }}</small></h3>
 				</div>
+				<form method = "post">
+					<div class="modal-body">					
+							<label><strong>In less than 200 characters,</strong> tell us what you think about this lens</label>
+							
+							<textarea row="10" class="span12" name="newImpression" onblur="textCounter(this,this.form.counter,200);" onkeyup="textCounter(this,this.form.counter,200);"></textarea>	
+							<input class="btn btn-primary disabled" onblur="textCounter(this.form.recipients,this,200);" disabled  onfocus="this.blur();" value="200" name="counter" style="width:30px; padding:2px ">
+							<span class="muted">characters remaining</span><br><br> <hr>
+							<label><strong>Link to your site</strong>, if you've written a detailed review on this lens, link to it here!</label>
+							<input type="text" class="span12" name="reviewLink" placeholder="http://myreviewblog.example.com"></input>
+					</div>
+					<div class="modal-footer" style="margin-bottom:-20px">					
+							<button class="btn" data-dismiss="modal" aria-hidden="true">Discard</button>
+							<button class="btn btn-primary" name="userImpression" type="submit">Save Impression</button>					
+					</div>
+				</form>
 			</div>	
-			<div>
+			<div style="margin-top:20px">
 				{% for column in columnComments %}
 				<div class="span4">
 					<ul class="thumbnails">				
@@ -137,6 +145,19 @@
 			</form>						
 		</div>		
 	</div>
+
+<script>
+	function textCounter( field, countfield, maxlimit ) {
+	if ( field.value.length > maxlimit ) {
+	  field.value = field.value.substring( 0, maxlimit );
+	  field.blur();
+	  field.focus();
+	  return false;
+	 } else {
+	  countfield.value = maxlimit - field.value.length;
+	 }
+	}
+</script>
 	
 
 {% endblock %}
