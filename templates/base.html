@@ -21,10 +21,28 @@
 						<span class="icon-bar"></span>
 					</a>
 					<a class="brand" href="/">mu43app</a>
+					<div class="btn-group pull-right">
+						<a class="btn btn-inverse dropdown-toggle " data-toggle="dropdown" href="#">
+							<span style="display:{{ localUser.displayUser}}">{{localUser.nickname}}</span>
+							<span style="display:{{ localUser.displayAlt}}"> Not logged in</span>
+							<span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu">
+							<li style="display:{{ localUser.displayAlt}}">
+								<a href="/authenticate">Sign Up/Sign in</a>
+							</li>
+							<li style="display:{{ localUser.displayUser}}">
+								<a href="/profile">Profile</a>
+							</li>
+							<li style="display:{{ localUser.displayUser}}">
+								<a href="{{localUser.logoutUrl |safe }}">Sign Out</a>
+							</li>
+						</ul>
+					</div>
 					<div class="nav-collapse collapse">
 						<ul class="nav">
 							<li class="{{homeActive}}"><a href="/">Home</a></li>
-						</ul>
+						</ul>						
 					</div><!--/.nav-collapse -->
 				</div>
 			</div>

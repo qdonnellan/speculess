@@ -1,4 +1,5 @@
 from database import lensComments
+from localUsers import getNickname
 from google.appengine.api import memcache
 
 def getComments(lensID):
@@ -8,11 +9,11 @@ def getComments(lensID):
 		memcache.set('commentsFor' + lensID, commentObject)
 	return commentObject
 
-def newComment(lensID, comment, userID):
+def newComment(lensID, comment, user):
 	commentObject = lensComments(
 		lensID = lensID, 
 		comment = comment,
-		userID = userID, 
+		userID = user.id, 
 		count = 1 )
 	commentObject.put()
 	memcache.delete('commentsFor' + lensID)
@@ -22,6 +23,7 @@ def getThreeColumnComments(lensID):
 	threeColumns = [[],[],[]]
 	i = 0
 	for comment in comments:
+		comment.userID = getNickname(comment.userID)
 		threeColumns[i].append(comment)
 		if i == 2:
 			i = 0

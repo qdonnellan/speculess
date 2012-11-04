@@ -3,7 +3,7 @@
 	<div class = "row-fluid">		
 		<div class="span9">
 			<h3>User Impressions<small> what the community thinks about this lens</small></h3>
-			<div class="accordion" id = "accordion2">
+			<div class="accordion" id = "accordion2" style="display:{{localUser.displayUser}}">
 				<div class="accordion-group">
 					<div class="accordion-heading">
 						<a class="accordion-toggle" data-toggle="collapse" data-parent="accordion2" href="#collapseOne"><i class="icon-pencil"></i>
@@ -51,7 +51,7 @@
 			<div>
 				<ul class="thumbnails">
 					<li class="frontNail thumbnail span12" style="margin-left: 0px">
-						<div style = "text-align:center;">			
+						<div style = "text-align:center; display:{{localUser.displayUser}}">			
 							<div style="display:{{ lensStatus.statusLinks }}">				
 								<a href="/myBag?changeBag=haveIt|{{lens.id}}">
 									<span class="btn btn-mini btn-success">have it</span></a>

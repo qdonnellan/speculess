@@ -1,6 +1,7 @@
 import os
 import jinja2
 import webapp2
+from localUsers import localUser
 
 template_dir=os.path.join(os.path.dirname(__file__),"templates")
 jinja_environment=jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir),autoescape=True)
@@ -15,7 +16,7 @@ class MainHandler(webapp2.RequestHandler):
         return t.render(params)
     
     def render(self, template, **kw):                   
-        self.write(self.render_str(template, **kw))        
+        self.write(self.render_str(template, localUser = localUser(), **kw))        
 
 
 
