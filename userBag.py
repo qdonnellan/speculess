@@ -1,4 +1,5 @@
 from database import userLensBag
+from lensStats import getLensStats
 from lensOps import getLens
 from google.appengine.ext import db
 from google.appengine.api import memcache
@@ -11,7 +12,6 @@ def userBagCacheKey(userID, lensID=None):
 		return 'userBag' + userID
 
 def changeUserBag(userID, newBagStatus, lensID):
-	logging.info('user bag being changed')
 	if newBagStatus in ['wantIt', 'haveIt', 'doNotWant', 'clearStatus']:
 		bagInstance = getBagInstance(userID, lensID)
 		if bagInstance is not None:
@@ -25,6 +25,7 @@ def changeUserBag(userID, newBagStatus, lensID):
 		cacheKey = userBagCacheKey(userID, lensID)	#get the individual lens bag key	
 		memcache.set(cacheKey, bagInstance)	
 		updateUserBag(userID)
+		getLensStats(lensID, update = True)
 
 def updateUserBag(userID, fetch = False):
 	userBag = userLensBag.all().filter('userID = ', userID)

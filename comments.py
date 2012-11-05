@@ -34,21 +34,28 @@ def newComment(lensID, comment, user, reviewLink = None):
 	commentObject.put()
 	memcache.delete('commentsFor' + lensID)
 
-def likeComment(lensID, userID):
-	if getLikeHistory(lensID,userID) == False:
-		commentObject = lensComments.all().filter('lensID =', lensID).filter('userID = ', userID).get()
+
+def likeComment(lensID, userID, localUser):
+	objectKey = lensID + 'commentBy' + userID
+	if getLikeHistory(objectKey,localUser) == False:
+		commentObject = getUserComment(lensID, userID)
 		if commentObject is not None:
 			commentObject.count += 1
 			commentObject.put()
-			likeObject = userLikeHistory(userID = userID, objectID = lensID).put()
+			likeObject = userLikeHistory(userID = localUser.id, objectID = objectKey).put()
 			memcache.delete('commentsFor' + lensID)
+			memcache.delete(objectKey)
 
-def getLikeHistory(lensID, userID):
-	likeHistory = userLikeHistory.all().filter('objectID = ', lensID).filter('userID = ', userID).get()
+def getLikeHistory(objectKey, localUser):
+	historyStatus = False
+	likeHistory = memcache.get(objectKey)	
 	if likeHistory is None:
-		return False
-	else:
-		return True
+		likeHistory = userLikeHistory.all().filter('objectID = ', objectKey)
+		memcache.set(objectKey, likeHistory)
+	for item in likeHistory:
+		if item.userID == localUser.id:
+			historyStatus = True
+	return historyStatus
 
 def getUserComment(lensID, userID):
 	comments = getComments(lensID)
@@ -64,7 +71,7 @@ def getThreeColumnComments(lensID):
 	i = 0
 	for comment in comments:
 		if comment.comment != 'blank_comment':
-			comment.userNickname = getNickname(comment.userID)
+			comment.userNickname = getNickname(comment.userID)			
 			threeColumns[i].append(comment)
 			if i == 2:
 				i = 0

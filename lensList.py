@@ -12,6 +12,7 @@ class newLens():
 		else:
 			self.img = '/images/lenses/%s/%s.jpg' % (self.man, ident)
 
+
 def manRef(reference):
 	mannyMap = {'O': 'Olympus', 'P': 'Panasonic', 'S':'Sigma'}
 	return mannyMap[reference]

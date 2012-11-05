@@ -11,9 +11,9 @@
 					</div>				
 					<div class="frontNailCard">
 						<div class="progress" style="height:7px; margin-top:-2px">
-							<div class="bar bar-success" style="width: 35%;"></div>
-							<div class="bar" style = "width:15%;"></div>
-							<div class="bar bar-danger" style = "width:5%;"></div>			
+							<div class="bar bar-success" style="width: {{lens.stats.havePercent}}%;"></div>
+							<div class="bar" style = "width:{{lens.stats.wantPercent}}%;"></div>
+							<div class="bar bar-danger" style = "width:{{lens.stats.dontPercent}}%;"></div>			
 						</div>
 						<p class="frontNailCardHead">
 							{{lens.man.upper()}}

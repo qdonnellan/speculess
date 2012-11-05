@@ -3,8 +3,9 @@ from google.appengine.api import memcache
 from google.appengine.ext import db
 from google.appengine.api import users
 from handlers import MainHandler
-from lensOps import getLens
+from lensOps import getLens, appendStats
 from lensList import lensList
+from lensStats import lensStats
 import comments
 import database
 import logging
@@ -14,7 +15,7 @@ import localUsers
 
 class MainPage(MainHandler):
     def get(self):        
-        self.render('front.html', lenses=lensList, homeActive = 'active')
+        self.render('front.html', lenses=appendStats(lensList), homeActive = 'active')
 
 class lensInfo(MainHandler):    
     def get(self, lensID):
@@ -22,7 +23,8 @@ class lensInfo(MainHandler):
         lens = getLens(lensID)                
         if lens is not None:       
             self.render('lensPage.html', 
-                lens = lens,  
+                lens = lens,
+                lensStats = lensStats(lensID),  
                 userComment = comments.userComment(lensID, localUser),               
                 columnComments = comments.getThreeColumnComments(lensID),
                 lensStatus = userBag.lensStatus(localUser, lensID = lensID))
@@ -52,8 +54,10 @@ class lensBag(MainHandler):
 
 class likeLens(MainHandler):
     def get(self, lensID=None, userID = None):
+        localUser = localUsers.localUser()
         if lensID is not None and userID is not None:
-            comments.likeComment(lensID, userID)
+            if localUser.exists:
+                comments.likeComment(lensID, userID, localUser)
         self.redirect('/lens/%s' % lensID)
 
 

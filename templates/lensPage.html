@@ -49,8 +49,8 @@
 									<p class="text-warning" style="font-family: 'Open Sans Condensed', sans-serif; font-size:20pt;">
 										{{comment.count}}
 									</p>
-									<a class="btn btn-mini btn-primary" rel="tooltip" data-placement="bottom" 
-									title="Like this impression if you feel that it is useful" href="/like/lens/{{lens.id}}/{{comment.userID}}">Like</a>
+									<a class="btn btn-mini btn-inverse" rel="tooltip" data-placement="bottom" 
+									title="Like this impression if you feel that it is useful" href="/like/lens/{{lens.id}}/{{comment.userID}}" style="display: {{ localUser.displayUser }}">Like</a>
 								</div>
 								<p class="frontNailCardHead">{{comment.userNickname}}</p>
 								<p class="frontNailCardInfo" >
@@ -92,16 +92,14 @@
 							</div>				
 							<div class="lensPageCard">
 								<div class="progress" style="margin-top:-2px">
-									<div class="bar bar-success" style="width: 35%;"></div>
-									<div class="bar" style = "width:15%;"></div>
-									<div class="bar bar-danger" style = "width:5%;"></div>			
+									<div class="bar bar-success" style="width: {{lensStats.havePercent}}%;"></div>
+									<div class="bar" style = "width:{{lensStats.wantPercent}}%;"></div>
+									<div class="bar bar-danger" style = "width:{{lensStats.dontPercent}}%;"></div>			
 								</div>
-								<div style="margin-top:-20px; font-size:8pt">				
-									<span class="text-success">35% have it</span>
-									<span class="muted"><strong>-</strong></span>
-									<span class="text-info">15% want it</span>
-									<span class="muted"><strong>-</strong></span>
-									<span class="text-error">5% don't want it</span>		
+								<div style="margin-top:-20px; font-size:8pt;">				
+									<span class="text-success">{{lensStats.havePercent}}% have it</span>
+									<span class="text-info">{{lensStats.wantPercent}}% want it</span>
+									<span class="text-error">{{lensStats.dontPercent}}% don't want it</span>		
 								</div>
 								<p class="frontNailCardHead">
 									{{lens.man.upper()}}
