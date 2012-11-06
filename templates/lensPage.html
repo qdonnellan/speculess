@@ -52,7 +52,7 @@
 									<a class="btn btn-mini btn-inverse" rel="tooltip" data-placement="bottom" 
 									title="Like this impression if you feel that it is useful" href="/like/lens/{{lens.id}}/{{comment.userID}}" style="display: {{ localUser.displayUser }}">Like</a>
 								</div>
-								<p class="frontNailCardHead">{{comment.userNickname}}</p>
+								<p class="frontNailCardName">{{comment.userNickname}}</p>
 								<p class="frontNailCardInfo" >
 									<a class="btn btn-small btn-inverse" href="{{comment.reviewLink}}" style="display:{{comment.reviewDisplay}}" target="_blank">Read the full review</a>
 									<span style="color:#111">.</span>
@@ -108,14 +108,14 @@
 									{{lens.name}}
 								</p>
 								<div>
-									<a class="btn btn-inverse shopping" href="">
+									<a class="btn btn-inverse shopping" href="{{lens.amazon}}" style="display:{{lens.amazonDisplay}}" target = '_blank'>
 										<p class="muted buy-at">buy at</p>
 										<div class="progress">
 											<div class="bar" style="width: 100%; background:#E47911"></div>		
 										</div>
 										<p class="vendor-name">Amazon</p>
 									</a>
-									<a class="btn btn-inverse shopping" href="">
+									<a class="btn btn-inverse shopping" href="{{lens.bh}}" style="display:{{lens.bhDisplay}}" target = '_blank'>
 										<p class="muted buy-at">buy at</p>
 										<div class="progress">
 											<div class="bar" style="width: 100%; background:#DF0101"></div>		

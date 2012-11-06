@@ -1,6 +1,6 @@
 # This is the one file storing all the lens information
 class newLens():
-	def __init__(self,name,focus,aperture,man,ident,color=None, img=True):
+	def __init__(self,name,focus,aperture,man,ident,color=None, img=True, amazon=None, bh = None):
 		self.name = name
 		self.focus = focus
 		self.aperture = aperture
@@ -11,6 +11,16 @@ class newLens():
 			self.img = 'http://placehold.it/260x180' 
 		else:
 			self.img = '/images/lenses/%s/%s.jpg' % (self.man, ident)
+		self.amazon = amazon
+		if amazon is None:
+			self.amazonDisplay = 'none'
+		else:
+			self.amazonDisplay = 'visible'
+		self.bh = bh
+		if bh is None:
+			self.bhDisplay = 'none'
+		else:
+			self.bhDisplay = 'visible'
 
 
 def manRef(reference):
@@ -29,6 +39,7 @@ lensList.append(newLens(
 	aperture = '2.8',
 	color = 'black',
 	ident = 1000,
+	amazon = 'http://www.amazon.com/Olympus-MSC-60mm-2-8-Lens/dp/B0096WDK0K/ref=sr_1_3?ie=UTF8&qid=1352209742&sr=8-3&keywords=60mm+macro'
 	))
 
 lensList.append(newLens(
