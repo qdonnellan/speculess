@@ -49,7 +49,6 @@ def getNickname(userID):
 		nickname = userObject.nickname
 	return nickname
 
-
 class localUser():
 	def __init__(self, existingUser=None):
 		googleUser = users.get_current_user()		

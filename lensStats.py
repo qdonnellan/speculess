@@ -28,21 +28,7 @@ def makeStatCalculation(bagInstances):
 	lensStats = {'wantIt': wantInstances, 'haveIt': haveInstances, 'doNotWant': dontInstances, 'total':totalInstances}
 	return lensStats
 
-class lensStats():
-	def __init__(self, lensID):
-		currentStats = getLensStats(lensID)
-		self.have = currentStats['haveIt']
-		self.want = currentStats['wantIt']
-		self.dont = currentStats['doNotWant']
-		self.total = currentStats['total']
-		if self.total != 0:
-			self.havePercent = int(100.*self.have/self.total)
-			self.wantPercent = int(100.*self.want/self.total)
-			self.dontPercent = int(100.*self.dont/self.total)
-		else:
-			self.havePercent = 0
-			self.wantPercent = 0
-			self.dontPercent = 0
+
 
 		
 

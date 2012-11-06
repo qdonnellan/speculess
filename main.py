@@ -5,12 +5,10 @@ from google.appengine.api import users
 from handlers import MainHandler
 from lensOps import getLens, appendStats
 from lensList import lensList
-from lensStats import lensStats
 import likeComments
 import comments
 import database
 import logging
-import lensUses
 import userBag
 import localUsers
 import renderClasses
@@ -26,7 +24,7 @@ class lensInfo(MainHandler):
         if lens is not None:       
             self.render('lensPage.html', 
                 lens = lens,
-                lensStats = lensStats(lensID),  
+                lensStats = renderClasses.lensStats(lensID),  
                 userComment = renderClasses.userComment(lensID, localUser),               
                 comments = renderClasses.threeColumns(lensID, localUser),
                 lensStatus = userBag.lensStatus(localUser, lensID = lensID))

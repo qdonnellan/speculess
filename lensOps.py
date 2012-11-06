@@ -1,5 +1,5 @@
 from lensList import lensList
-from lensStats import lensStats
+from renderClasses import lensStats
 
 # All operations on the lens list are stored here
 
