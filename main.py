@@ -6,12 +6,14 @@ from handlers import MainHandler
 from lensOps import getLens, appendStats
 from lensList import lensList
 from lensStats import lensStats
+import likeComments
 import comments
 import database
 import logging
 import lensUses
 import userBag
 import localUsers
+import renderClasses
 
 class MainPage(MainHandler):
     def get(self):        
@@ -25,8 +27,8 @@ class lensInfo(MainHandler):
             self.render('lensPage.html', 
                 lens = lens,
                 lensStats = lensStats(lensID),  
-                userComment = comments.userComment(lensID, localUser),               
-                columnComments = comments.getThreeColumnComments(lensID),
+                userComment = renderClasses.userComment(lensID, localUser),               
+                comments = renderClasses.threeColumns(lensID, localUser),
                 lensStatus = userBag.lensStatus(localUser, lensID = lensID))
         else:
             self.redirect('/')
@@ -57,7 +59,7 @@ class likeLens(MainHandler):
         localUser = localUsers.localUser()
         if lensID is not None and userID is not None:
             if localUser.exists:
-                comments.likeComment(lensID, userID, localUser)
+                likeComments.likeComment(lensID, userID, localUser)
         self.redirect('/lens/%s' % lensID)
 
 

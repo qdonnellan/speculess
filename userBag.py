@@ -3,7 +3,6 @@ from lensStats import getLensStats
 from lensOps import getLens
 from google.appengine.ext import db
 from google.appengine.api import memcache
-import logging
 
 def userBagCacheKey(userID, lensID=None):
 	if lensID is not None:
@@ -63,7 +62,6 @@ def getBagInstance(userID, lensID):
 	bagInstance = memcache.get(cacheKey)
 	if bagInstance is None:
 		bagInstance = userLensBag.all().filter('userID = ', userID).filter('lensID = ', lensID).get()
-		logging.info(str(bagInstance))
 		memcache.set(cacheKey, bagInstance)
 	if bagInstance is not None:
 		if bagInstance.bagStatus == 'clearStatus':
