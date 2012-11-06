@@ -1,4 +1,2 @@
-a = ['hello', 'world']
-
-a = 
-print a
+#test changes
+#testing changes to mercurial.ini file
