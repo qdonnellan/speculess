@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block body %}
+
+<ul id="myTab" class="nav nav-tabs">
+  <li class="active"><a href="#personalInfo" data-toggle="tab">Personal Information</a></li>
+  <li><a href="#lensBag" data-toggle="tab">Lens Bag</a></li>
+  <li><a href="#wishList" data-toggle="tab">Wish List</a></li>
+  <li><a href="#yourImpressions" data-toggle="tab">Impressions</a></li>    
+</ul>
+<div id="myTabContent" class="tab-content">
+  <div class="tab-pane fade in active" id="personalInfo">
+    <p>Interesting things about you
+    </p>
+  </div>
+  <div class="tab-pane fade" id="lensBag">
+  	{% for lens in userBag.have %}
+  		{{lens.name}}
+  	{% endfor %}
+  </div>
+  <div class="tab-pane fade" id="wishList">
+    {% for lens in userBag.want %}
+  		{{lens.name}}
+  	{% endfor %}
+  </div>
+  <div class="tab-pane fade" id="yourImpressions">
+    <p>Here are the lenses that you want!</p>
+  </div>    
+</div>
+
+{% endblock %}
