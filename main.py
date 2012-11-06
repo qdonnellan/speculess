@@ -69,6 +69,10 @@ class userProfile(MainHandler):
         else:
             self.redirect('/authenticate?error=you must be logged in for that')
 
+class aboutPage(MainHandler):
+    def get(self):
+        self.render('about.html', aboutActive = 'active')
+
 class userAuth(MainHandler):
     def get(self):
         newAccountSetup = self.request.get('setup')
@@ -92,5 +96,6 @@ app = webapp2.WSGIApplication([
     ('/like/lens/(\w+)/(\w+)', likeLens),
     ('/profile', userProfile),
     ('/myBag', lensBag),
+    ('/about', aboutPage),
     ('.*', MainPage),
     ],debug=True)

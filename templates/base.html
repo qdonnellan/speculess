@@ -44,6 +44,7 @@
 					<div class="nav-collapse collapse">
 						<ul class="nav">
 							<li class="{{homeActive}}"><a href="/">Home</a></li>
+							<li class="{{aboutActive}}"><a href="/about">About</a></li>
 						</ul>						
 					</div><!--/.nav-collapse -->
 				</div>
@@ -58,6 +59,24 @@
 				<p class="muted">
 					Experimental version of mu43app by Quentin Donnellan
 				</p>
+				<!-- Button to trigger modal -->
+				<a href="#myModal1" role="button" data-toggle="modal">Feedback</a>
+
+				<!-- Modal -->
+				<div id="myModal1" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+						<h3 id="myModalLabel1">Feedback</h3>
+					</div>
+					<div class="modal-body">
+						<p>Noticed something wrong with the site? Have suggestions for new features? Do you really like something about this site? Help us out with your feedback!</p>
+
+						<code>this feature coming soon...</code>
+					</div>
+					<div class="modal-footer">
+						<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+					</div>
+				</div>
 			</div>
 		</footer>
 
