@@ -81,6 +81,16 @@ lensList.append(newLens(
 	ident= 1001
 	))
 
+lensList.append(newLens(
+	name = 'Lumix G Vario 7-14mm f/4.0 ASPH.', 
+	man = 'P',
+	focus = '7-14',
+	aperture = '4.0',
+	color = 'black',
+	ident= 1002,
+	amazon = 'http://www.amazon.com/Panasonic-7-14mm-Micro-Four-Thirds/dp/B0028Y5GKK/'
+	))
+
 
 
 # Sigma Lenses
