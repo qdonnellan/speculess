@@ -9,32 +9,25 @@ def likeComment(lensID, userID, localUser):
 	commentObject = getUserComment(lensID, userID)
 	if commentObject is not None:
 		likeHistory = getLikeHistory(objectKey,localUser)
-		if  likeHistory == False:		
-			if commentObject is not None:
-				commentObject.count += 1				
-				likeObject = userLikeHistory(userID = localUser.id, objectID = objectKey).put()
-				incrementUserLikes(userID, 1)
+		if likeHistory is None:
+			commentObject.count += 1				
+			likeObject = userLikeHistory(userID = localUser.id, objectID = objectKey)
+			likeObject.put()			
 		else:
 			likeHistory.delete()
 			commentObject.count += -1
-			incrementUserLikes(userID, -1)
+
+		memcache.delete('likeHistoryFor' + userID)
 		commentObject.put()		
 		memcache.delete('commentsFor' + lensID)
-		memcache.delete(objectKey)
-	
-	
+		memcache.delete(objectKey)	
 
 def getLikeHistory(objectKey, localUser):
-	historyStatus = False
-	likeHistory = memcache.get(objectKey)	
+	likeHistory = memcache.get('likeHistoryFor' + objectKey)	
 	if likeHistory is None:
-		likeHistory = userLikeHistory.all().filter('objectID = ', objectKey)
-		memcache.set(objectKey, likeHistory)
-	if localUser.exists:
-		for item in likeHistory:
-			if item.userID == localUser.id:
-				historyStatus = item
-	return historyStatus
+		likeHistory = userLikeHistory.all().filter('objectID = ', objectKey).filter('userID = ', localUser.id).get()
+		memcache.set('likeHistoryFor' + objectKey, likeHistory)
+	return likeHistory	
 
 def getUserLikes(userID):
 	likes = memcache.get('likeHistoryFor' + userID)
@@ -45,8 +38,3 @@ def getUserLikes(userID):
 			likes += comment.count
 		memcache.set('likeHistoryFor' + userID, likes)
 	return likes
-
-def incrementUserLikes(userID, increment):
-	likes = getUserLikes(userID)
-	likes += increment
-	memcache.set('likeHistoryFor' + userID, likes)

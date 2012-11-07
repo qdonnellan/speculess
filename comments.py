@@ -15,6 +15,7 @@ def newComment(lensID, comment, user, reviewLink = None):
 		reviewDisplay = 'none'
 	else:
 		reviewDisplay = 'visible'
+
 	if comment is None or comment == '':
 		comment = 'blank_comment'
 
@@ -26,14 +27,18 @@ def newComment(lensID, comment, user, reviewLink = None):
 			reviewLink = reviewLink,
 			reviewDisplay = reviewDisplay,
 			userID = user.id,
-			userNickname = getNickname(user.id), 
 			count = 0)
-	else:		
-		commentObject.comment = comment
-		commentObject.reviewLink =reviewLink
-		commentObject.reviewDisplay = reviewDisplay
-	commentObject.put()
+		commentObject.put()
+	else:
+		if comment == 'blank_comment':
+			commentObject.delete()			
+		else:		
+			commentObject.comment = comment
+			commentObject.reviewLink =reviewLink
+			commentObject.reviewDisplay = reviewDisplay
+			commentObject.put()	
 	memcache.delete('commentsFor' + lensID)
+
 
 def getUserComment(lensID, userID):
 	comments = getComments(lensID)

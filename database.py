@@ -9,7 +9,6 @@ class lensComments(db.Model):
 	lensID = db.StringProperty(required = True)
 	comment = db.TextProperty(required = True)
 	userID = db.StringProperty(required = True)
-	userNickname = db.StringProperty(required = False)
 	reviewLink = db.StringProperty(required=False)
 	reviewDisplay = db.TextProperty(required = False)
 	count = db.IntegerProperty(required = True)
