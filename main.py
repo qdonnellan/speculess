@@ -5,7 +5,7 @@ from google.appengine.api import users
 from handlers import MainHandler
 from lensOps import getLens, appendStats
 from lensList import lensList
-import likeComments
+import likeObjects
 import comments
 import database
 import logging
@@ -57,9 +57,8 @@ class likeLens(MainHandler):
         localUser = localUsers.localUser()
         if lensID is not None and userID is not None:
             if localUser.exists:
-                likeComments.likeComment(lensID, userID, localUser)
+                likeObjects.likePress(lensID, userID, localUser)
         self.redirect('/lens/%s' % lensID)
-
 
 class userProfile(MainHandler):
     def get(self):

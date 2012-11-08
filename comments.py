@@ -39,7 +39,6 @@ def newComment(lensID, comment, user, reviewLink = None):
 			commentObject.put()	
 	memcache.delete('commentsFor' + lensID)
 
-
 def getUserComment(lensID, userID):
 	comments = getComments(lensID)
 	userComment = None
