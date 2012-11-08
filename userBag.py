@@ -1,5 +1,5 @@
 from database import userLensBag
-from lensStats import getLensStats
+from lensStats import getLensStats, getTotalLensInstances
 from lensOps import getLens
 from google.appengine.ext import db
 from google.appengine.api import memcache
