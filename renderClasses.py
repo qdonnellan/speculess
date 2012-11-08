@@ -25,7 +25,11 @@ class threeColumns():
 		for comment in comments:
 			if comment.comment != 'blank_comment':
 				comment.userNickname = getNickname(comment.userID)
-				comment.userRating = getUserRating(comment.userID)				
+				comment.userRating = getUserRating(comment.userID)	
+				if comment.reviewLink is None or comment.reviewLink == '':
+					comment.reviewDisplay = 'none'
+				else:
+					comment.reviewDisplay = 'visible'			
 				objectKey = 'likesFor' + lensID + comment.userID
 				comment.count = getObjectLikes(objectKey)
 				if userLikedObject(localUser, objectKey):

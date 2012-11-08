@@ -35,13 +35,16 @@ def getObjectLikes(likeKey):
 	return totalLikes
 
 def getUserLikeHistory(localUser):
-	likeHistory = memcache.get('likeHistoryFor' + localUser.id)
-	if likeHistory is None:
-		allLikes = likes.all().filter('userID =', localUser.id)
+	if localUser.exists:
+		likeHistory = memcache.get('likeHistoryFor' + localUser.id)
+		if likeHistory is None:
+			allLikes = likes.all().filter('userID =', localUser.id)
+			likeHistory = []
+			for like in allLikes:
+				likeHistory.append(like)
+			memcache.set('likeHistoryFor' + localUser.id, likeHistory)
+	else:
 		likeHistory = []
-		for like in allLikes:
-			likeHistory.append(like)
-		memcache.set('likeHistoryFor' + localUser.id, likeHistory)
 	return likeHistory
 
 def userLikedObject(localUser,objectID):
@@ -65,5 +68,12 @@ def updateUserRating(userID, increment):
 
 def getUserRating(userID):
 	user = checkForUser(userID)
-	return user.rating
+	if user:
+		if user.rating is None:
+			rating = 0
+		else:
+			rating = user.rating
+	else:
+		rating = 0
+	return rating
 

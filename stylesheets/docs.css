@@ -108,8 +108,9 @@ body > .navbar {
 body > .navbar .brand {
   padding-right: 0;
   padding-left: 0;
-  margin-left: 20px;
-  float: right;
+  margin-left: 0px;
+  margin-right:20px;
+  float: left;
   font-weight: bold;
   color: white;
   text-shadow: 0 1px 0 rgba(255,255,255,.1), 0 0 30px rgba(255,255,255,.125);
