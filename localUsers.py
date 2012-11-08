@@ -25,7 +25,7 @@ def getAllUsers(refresh = False):
 	if allUsers is None or refresh:
 		allUsers = []
 		users = appUsers.all()
-		for user in appUsers:
+		for user in users:
 			allUsers.append(user.userID)
 		memcache.set('allUsers', allUsers)
 	return allUsers
