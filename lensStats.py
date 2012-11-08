@@ -12,7 +12,7 @@ def getLensStats(lensID, update = False):
 	return currentStats
 
 def makeStatCalculation(bagInstances):
-	totalInstances = 0
+	totalInstances = getTotalLensInstances()
 	haveInstances = 0
 	wantInstances = 0
 	dontInstances = 0
@@ -27,6 +27,18 @@ def makeStatCalculation(bagInstances):
 			dontInstances += 1
 	lensStats = {'wantIt': wantInstances, 'haveIt': haveInstances, 'doNotWant': dontInstances, 'total':totalInstances}
 	return lensStats
+
+def getTotalLensInstances():
+	totalInstances = memcache.get('totalLensInstances')
+	if totalInstances is None:
+		totalInstances = 0
+		allInstances = userLensBag.all()
+		for instance in allInstances:
+			if instance.bagStatus != 'clearStatus':
+				totalInstances += 1
+		memcache.set('getTotalLensInstances', totalInstances)
+	return totalInstances
+
 
 
 

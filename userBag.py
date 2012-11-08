@@ -13,17 +13,22 @@ def userBagCacheKey(userID, lensID=None):
 def changeUserBag(userID, newBagStatus, lensID):
 	if newBagStatus in ['wantIt', 'haveIt', 'doNotWant', 'clearStatus']:
 		bagInstance = getBagInstance(userID, lensID)
-		if bagInstance is not None:
-			bagInstance.bagStatus = newBagStatus
-		else:
-			bagInstance = userLensBag(
-				userID = userID, 
-				bagStatus = newBagStatus,
-				lensID = lensID)
-		bagInstance.put()
-		cacheKey = userBagCacheKey(userID, lensID)	#get the individual lens bag key	
-		memcache.set(cacheKey, bagInstance)	
+		if newBagStatus != 'clearStatus':
+			if bagInstance is not None:
+				bagInstance.bagStatus = newBagStatus
+			else:
+				bagInstance = userLensBag(
+					userID = userID, 
+					bagStatus = newBagStatus,
+					lensID = lensID)
+			bagInstance.put()
+			cacheKey = userBagCacheKey(userID, lensID)	#get the individual lens bag key	
+			memcache.set(cacheKey, bagInstance)	
+		elif newBagStatus == 'clearStatus':
+			if bagInstance is not None:
+				bagInstance.delete()
 		updateUserBag(userID)
+		getBagInstance(userID, lensID, update = True)
 		getLensStats(lensID, update = True)
 
 def updateUserBag(userID, fetch = False):
@@ -57,10 +62,10 @@ def getUserBagList(userID):
 	return userBag
 
 
-def getBagInstance(userID, lensID):
+def getBagInstance(userID, lensID, update = False):
 	cacheKey = userBagCacheKey(userID, lensID)
 	bagInstance = memcache.get(cacheKey)
-	if bagInstance is None:
+	if bagInstance is None or update:
 		bagInstance = userLensBag.all().filter('userID = ', userID).filter('lensID = ', lensID).get()
 		memcache.set(cacheKey, bagInstance)
 	if bagInstance is not None:
