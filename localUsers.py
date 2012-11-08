@@ -33,10 +33,10 @@ def changeUserNickname(userID, newNickname):
 			currentNicknamesList.append(newNickname)
 			memcache.set('currentNicknamesList', currentNicknamesList)
 
-def checkForUser(userID):
+def checkForUser(userID, forceRefresh = False):
 	cacheKey = userCacheKey(userID)
 	userObject = memcache.get(cacheKey)
-	if userObject is None:
+	if userObject is None or forceRefresh:
 		userObject = appUsers.all().filter('userID = ', userID).get()
 		if userObject is not None:
 			memcache.set(cacheKey, userObject)

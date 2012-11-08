@@ -1,5 +1,5 @@
 from comments import getUserComment, getComments
-from likeComments import getUserLikes, getLikeHistory
+from likeObjects import getUserRating, userLikedObject, getObjectLikes
 from localUsers import getNickname
 from lensStats import getLensStats
 
@@ -25,10 +25,14 @@ class threeColumns():
 		for comment in comments:
 			if comment.comment != 'blank_comment':
 				comment.userNickname = getNickname(comment.userID)
-				comment.userRating = getUserLikes(comment.userID)
-				objectKey = lensID + 'commentBy' + comment.userID
-				likeHistory = getLikeHistory(objectKey, localUser)
-				if likeHistory != False:
+				comment.userRating = getUserRating(comment.userID)	
+				if comment.reviewLink is None or comment.reviewLink == '':
+					comment.reviewDisplay = 'none'
+				else:
+					comment.reviewDisplay = 'visible'			
+				objectKey = 'likesFor' + lensID + comment.userID
+				comment.count = getObjectLikes(objectKey)
+				if userLikedObject(localUser, objectKey):
 					comment.buttonStyle = 'btn-primary'
 					comment.buttonTooltip = 'You liked this comment, click again to unlike'					
 				else:

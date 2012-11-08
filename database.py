@@ -10,8 +10,6 @@ class lensComments(db.Model):
 	comment = db.TextProperty(required = True)
 	userID = db.StringProperty(required = True)
 	reviewLink = db.StringProperty(required=False)
-	reviewDisplay = db.TextProperty(required = False)
-	count = db.IntegerProperty(required = True)
 
 class userLensBag(db.Model):
 	userID = db.StringProperty(required = True)
@@ -21,8 +19,9 @@ class userLensBag(db.Model):
 class appUsers(db.Model):
 	userID = db.StringProperty(required = True)
 	nickname =db.StringProperty(required = True)
+	rating = db.IntegerProperty(required = False)
 
-class userLikeHistory(db.Model):
+class likes(db.Model):
 	userID = db.StringProperty(required = True)
 	objectID = db.StringProperty(required = True)
 
