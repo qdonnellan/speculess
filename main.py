@@ -3,7 +3,7 @@ from google.appengine.api import memcache
 from google.appengine.ext import db
 from google.appengine.api import users
 from handlers import MainHandler
-from lensOps import getLens, appendStats
+from lensOps import getLens
 from lensList import lensList
 import likeObjects
 import comments
@@ -15,7 +15,7 @@ import logging
 
 class MainPage(MainHandler):
     def get(self):        
-        self.render('front.html', lenses=appendStats(lensList), homeActive = 'active')
+        self.render('front.html', lenses=renderClasses.appendStats(lensList), homeActive = 'active')
 
 class lensInfo(MainHandler):    
     def get(self, lensID):

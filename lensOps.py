@@ -1,5 +1,4 @@
 from lensList import lensList
-from renderClasses import lensStats
 
 # All operations on the lens list are stored here
 
@@ -10,10 +9,5 @@ def getLens(lensID):
             lensFound = lens
     return lensFound
 
-def appendStats(lensList):
- 	newList = []
- 	for lens in lensList:
- 		lens.stats = lensStats(lens.id)
- 		newList.append(lens)
- 	return newList
+
 

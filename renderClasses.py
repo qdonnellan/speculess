@@ -1,9 +1,35 @@
-from comments import getUserComment
+from comments import getUserComment, getAllUserComments
+from lensList import lensList
 from sortComments import sortComments
 from likeObjects import getUserRating, userLikedObject, getObjectLikes
 from localUsers import getNickname
 from lensStats import getLensStats, getTotalLensInstances
+from lensOps import getLens
 import logging
+
+def appendStats(lensList):
+ 	newList = []
+ 	for lens in lensList:
+ 		lens.stats = lensStats(lens.id)
+ 		newList.append(lens)
+ 	return newList
+
+def formatComment(comment):
+	comment.userNickname = getNickname(comment.userID)
+	comment.userRating = getUserRating(comment.userID)	
+	if comment.reviewLink is None or comment.reviewLink == '':
+		comment.reviewDisplay = 'none'
+	else:
+		comment.reviewDisplay = 'visible'			
+	objectKey = 'likesFor' + lensID + comment.userID
+	comment.count = getObjectLikes(objectKey)
+	if userLikedObject(localUser, objectKey):
+		comment.buttonStyle = 'btn-primary'
+		comment.buttonTooltip = 'You liked this comment, click again to unlike'					
+	else:
+		comment.buttonStyle = 'btn-inverse'
+		comment.buttonTooltip = 'Like this impression if you feel it is useful'
+	return comment
 
 
 class userComment():
@@ -26,20 +52,7 @@ class threeColumns():
 		i = 0
 		for comment in comments:
 			if comment.comment != 'blank_comment':
-				comment.userNickname = getNickname(comment.userID)
-				comment.userRating = getUserRating(comment.userID)	
-				if comment.reviewLink is None or comment.reviewLink == '':
-					comment.reviewDisplay = 'none'
-				else:
-					comment.reviewDisplay = 'visible'			
-				objectKey = 'likesFor' + lensID + comment.userID
-				comment.count = getObjectLikes(objectKey)
-				if userLikedObject(localUser, objectKey):
-					comment.buttonStyle = 'btn-primary'
-					comment.buttonTooltip = 'You liked this comment, click again to unlike'					
-				else:
-					comment.buttonStyle = 'btn-inverse'
-					comment.buttonTooltip = 'Like this impression if you feel it is useful'			
+				comment = formatComment(comment)		
 				self.columns[i].append(comment)
 				if i == 2:
 					i = 0
@@ -78,5 +91,17 @@ class activeTab():
 		self.have = 'in ' + tabDict['have']
 		self.wish = 'in ' + tabDict['wish']
 		self.impressions = 'in ' +  tabDict['impressions']
-		self.personal = 'in ' +  tabDict['personal']		
+		self.personal = 'in ' +  tabDict['personal']	
+
+class userImpressions():
+	def __init__(self,userID):
+		userComments = getAllUserComments(userID)
+		lensList = []
+		for comment in userComments:
+			lensList.append(getLens(comment.lensID))
+		self.lensList = appendStats(lensList)
+		comments = []
+		for comment in userComments:
+			comments.append(formatComment(comment))
+
 

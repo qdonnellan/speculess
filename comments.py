@@ -2,8 +2,6 @@ from database import lensComments
 from localUsers import getNickname
 from google.appengine.api import memcache
 
-
-
 def getComments(lensID):
 	commentObject = memcache.get('commentsFor' + lensID)
 	if commentObject is None:
@@ -39,6 +37,7 @@ def newComment(lensID, comment, user, reviewLink = None):
 			commentObject.reviewDisplay = reviewDisplay
 			commentObject.put()	
 	memcache.delete('commentsFor' + lensID)
+	getAllUserComments(user.id, forceRefresh = True)
 
 def getUserComment(lensID, userID):
 	comments = getComments(lensID)
@@ -47,6 +46,13 @@ def getUserComment(lensID, userID):
 		if comment.userID == userID:
 			userComment = comment
 	return userComment
+
+def getAllUserComments(userID, forceRefresh = False):
+	userComments = memcache.get('commentsBy' + userID)
+	if userComments is None or forceRefresh:
+		userComments = lensComments.all().filter('userID = ', user.id)
+		memcache.set('commentsBy' + userID)
+	return userComments
 
 
 		
