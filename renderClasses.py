@@ -1,4 +1,5 @@
-from comments import getUserComment, getComments
+from comments import getUserComment
+from sortComments import sortComments
 from likeObjects import getUserRating, userLikedObject, getObjectLikes
 from localUsers import getNickname
 from lensStats import getLensStats, getTotalLensInstances
@@ -19,8 +20,8 @@ class userComment():
 					self.displayAlt = 'none'
 
 class threeColumns():
-	def __init__(self,lensID, localUser):
-		comments = getComments(lensID)
+	def __init__(self,lensID, localUser, sortMethod = 'rating'):
+		comments = sortComments(lensID, sortMethod = sortMethod, numToGet = 10)
 		self.columns = [[],[],[]]
 		i = 0
 		for comment in comments:
@@ -60,4 +61,22 @@ class lensStats():
 			self.havePercent = 0
 			self.wantPercent = 0
 			self.dontPercent = 0
+
+class activeTab():
+	def __init__(self,activeTab):
+		tabDict = {'have':'', 'wish':'', 'impressions':'', 'personal':''}
+		if activeTab in tabDict:
+			tabDict[activeTab] = 'active'
+		elif activeTab == '' or activeTab not in tabDict:
+			tabDict['personal'] = 'active'
+
+		self.haveLI = tabDict['have']
+		self.wishLI = tabDict['wish']
+		self.impressionsLI = tabDict['impressions']
+		self.personalLI = tabDict['personal']
+
+		self.have = 'in ' + tabDict['have']
+		self.wish = 'in ' + tabDict['wish']
+		self.impressions = 'in ' +  tabDict['impressions']
+		self.personal = 'in ' +  tabDict['personal']		
 

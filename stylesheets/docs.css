@@ -35,6 +35,10 @@
   padding:8px;
 }
 
+.wishListCardInfo {
+  color:#CCC; 
+  font-size:12px
+}
 
 .frontNailCardHead {  
   color:#666;

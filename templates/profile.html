@@ -2,28 +2,94 @@
 {% block body %}
 
 <ul id="myTab" class="nav nav-tabs">
-  <li class="active"><a href="#personalInfo" data-toggle="tab">Personal Information</a></li>
-  <li><a href="#lensBag" data-toggle="tab">Lens Bag</a></li>
-  <li><a href="#wishList" data-toggle="tab">Wish List</a></li>
-  <li><a href="#yourImpressions" data-toggle="tab">Impressions</a></li>    
+  <li class="{{activeTab.personalLI}}"><a href="#personalInfo" data-toggle="tab">Personal Information</a></li>
+  <li class="{{activeTab.haveLI}}"><a href="#lensBag" data-toggle="tab">Lens Bag</a></li>
+  <li class="{{activeTab.wishLI}}"><a href="#wishList" data-toggle="tab">Wish List</a></li>
+  <li class="{{activeTab.impressionsLI}}"><a href="#yourImpressions" data-toggle="tab">Impressions</a></li>    
 </ul>
 <div id="myTabContent" class="tab-content">
-  <div class="tab-pane fade in active" id="personalInfo">
+  <div class="tab-pane fade {{activeTab.personal}}" id="personalInfo">
     <p>Interesting things about you
     </p>
   </div>
-  <div class="tab-pane fade" id="lensBag">
-  	{% for lens in userBag.have %}
-  		{{lens.name}}
-  	{% endfor %}
+  <div class="tab-pane fade {{activeTab.have}}" id="lensBag">
+    <h3>Your Lenses <small> the lenses you've said you have</small></h3>
+  	<ul class="thumbnails">
+      {% for lens in userBag.have %}
+      <li class="frontNail span3">
+        <a class="thumbnail" href="/lens/{{lens.id}}">        
+        <div class="frontNailDiv">  
+          <div style="height:120px; overflow:hidden; text-align:center">      
+            <img src={{lens.img}} alt=""> 
+          </div>        
+          <div class="frontNailCard">
+            <div class="progress" style="height:7px; margin-top:-2px">
+              <div class="bar bar-success" style="width: {{lens.stats.havePercent}}%;"></div>
+              <div class="bar" style = "width:{{lens.stats.wantPercent}}%;"></div>
+              <div class="bar bar-danger" style = "width:{{lens.stats.dontPercent}}%;"></div>     
+            </div>
+            <p class="frontNailCardHead">
+              {{lens.man.upper()}}
+            </p>
+            <p class="frontNailCardInfo">
+              {{lens.name}}
+            </p>                
+          </div>  
+        </div>
+        </a>        
+      </li>
+      {% endfor %}
+    </ul>
   </div>
-  <div class="tab-pane fade" id="wishList">
-    {% for lens in userBag.want %}
-  		{{lens.name}}
-  	{% endfor %}
+  <div class="tab-pane fade {{activeTab.wish}}" id="wishList">
+    <h3>Your Wish List <small> the lenses you want to have</small></h3>
+    <ul class="thumbnails">
+      {% for lens in userBag.want %}
+      <li class="frontNail span3">
+        <div class="thumbnail" >        
+          <div class="frontNailDiv">
+            <a href="/lens/{{lens.id}}">  
+              <div style="height:120px; overflow:hidden; text-align:center">      
+                <img src={{lens.img}} alt=""> 
+              </div>   
+            </a>     
+            <div class="lensPageCard">
+              <div class="progress" style="height:7px; margin-top:-2px">
+                <div class="bar bar-success" style="width: {{lens.stats.havePercent}}%;"></div>
+                <div class="bar" style = "width:{{lens.stats.wantPercent}}%;"></div>
+                <div class="bar bar-danger" style = "width:{{lens.stats.dontPercent}}%;"></div>     
+              </div>
+              <p class="frontNailCardHead">
+                {{lens.man.upper()}} 
+              </p>
+              <p class="wishListCardInfo">
+                {{lens.name}} 
+              </p>
+              <div>
+                <a class="btn btn-inverse shopping" href="{{lens.amazon}}" style="display:{{lens.amazonDisplay}}" target = '_blank'>
+                  <p class="muted buy-at">buy at</p>
+                  <div class="progress">
+                    <div class="bar" style="width: 100%; background:#E47911"></div>   
+                  </div>
+                  <p class="vendor-name">Amazon</p>
+                </a>
+                <a class="btn btn-inverse shopping" href="{{lens.bh}}" style="display:{{lens.bhDisplay}}" target = '_blank'>
+                  <p class="muted buy-at">buy at</p>
+                  <div class="progress">
+                    <div class="bar" style="width: 100%; background:#DF0101"></div>   
+                  </div>
+                  <p class="vendor-name">B&H Photo</p>
+                </a>
+              </div>                
+            </div>  
+          </div>
+        </div>        
+      </li>
+      {% endfor %}
+    </ul>
   </div>
-  <div class="tab-pane fade" id="yourImpressions">
-    <p>Here are the lenses that you want!</p>
+  <div class="tab-pane fade {{activeTab.impression}}" id="yourImpressions">
+    <h3>Your Impressions <small> thank you for your contribution to our community</small></h3>
   </div>    
 </div>
 

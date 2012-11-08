@@ -3,6 +3,7 @@ from localUsers import getNickname
 from google.appengine.api import memcache
 
 
+
 def getComments(lensID):
 	commentObject = memcache.get('commentsFor' + lensID)
 	if commentObject is None:

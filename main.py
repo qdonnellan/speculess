@@ -11,6 +11,7 @@ import database
 import userBag
 import localUsers
 import renderClasses
+import logging
 
 class MainPage(MainHandler):
     def get(self):        
@@ -62,9 +63,12 @@ class likeLens(MainHandler):
 
 class userProfile(MainHandler):
     def get(self):
+        activeTab = self.request.get('activeTab')
+        activeTab = renderClasses.activeTab(activeTab)
+        logging.info(activeTab.wish)
         localUser = localUsers.localUser()
         if localUser.exists:
-            self.render('profile.html', userBag = userBag.userBag(localUser.id))
+            self.render('profile.html', userBag = userBag.userBag(localUser.id), profileActive = 'active', activeTab = activeTab)
         else:
             self.redirect('/authenticate?error=you must be logged in for that')
 
