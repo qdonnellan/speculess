@@ -37,25 +37,24 @@
 						<span class="icon-bar"></span>
 					</a>
 					<a class="brand" href="/" >specu<span>less</span></a>
-					<div class="btn-group pull-right">
-						<a class="btn btn-inverse dropdown-toggle " data-toggle="dropdown" href="#">
+					<div class="btn-group pull-right" style="display:{{ localUser.displayUser}}">
+						<a class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" href="#" >
 							<span style="display:{{ localUser.displayUser}}">{{localUser.nickname}}</span>
-							<span style="display:{{ localUser.displayAlt}}"> Not logged in</span>
 							<span class="caret"></span>
-						</a>
+						</a>						
 						<ul class="dropdown-menu">
-							<li style="display:{{ localUser.displayAlt}}">
-								<a href="/authenticate">Sign Up/Sign in</a>
-							</li>
 							<li style="display:{{ localUser.displayUser}}">
-								<a href="/profile">Profile</a>
+								<a href="/profile"><i class="icon icon-user"></i> Profile</a>
 							</li>
 							<li class="divider" style="display:{{ localUser.displayUser }}"></li>
 							<li style="display:{{ localUser.displayUser}}">
-								<a href="{{localUser.logoutUrl |safe }}">Sign Out of Google</a>
+								<a href="{{localUser.logoutUrl |safe }}"><i class="icon icon-off"></i> Sign Out of Google</a>
 							</li>
 						</ul>
 					</div>
+					<a class="btn btn-success pull-right" href = "/authenticate" style="display:{{localUser.displayAlt}}">
+						sign up - sign In
+					</a>
 					<div class="nav-collapse collapse">
 						<ul class="nav">
 							<li class="{{homeActive}}"><a href="/">Home</a></li>

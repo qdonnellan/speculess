@@ -8,7 +8,6 @@ from lensList import lensList
 import likeObjects
 import comments
 import database
-import logging
 import userBag
 import localUsers
 import renderClasses
@@ -20,7 +19,8 @@ class MainPage(MainHandler):
 class lensInfo(MainHandler):    
     def get(self, lensID):
         localUser = localUsers.localUser() 
-        lens = getLens(lensID)                
+        lens = getLens(lensID)  
+        lensStats = renderClasses.lensStats(lensID)            
         if lens is not None:       
             self.render('lensPage.html', 
                 lens = lens,

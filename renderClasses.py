@@ -1,7 +1,8 @@
 from comments import getUserComment, getComments
 from likeObjects import getUserRating, userLikedObject, getObjectLikes
 from localUsers import getNickname
-from lensStats import getLensStats
+from lensStats import getLensStats, getTotalLensInstances
+import logging
 
 
 class userComment():
@@ -50,7 +51,7 @@ class lensStats():
 		self.have = currentStats['haveIt']
 		self.want = currentStats['wantIt']
 		self.dont = currentStats['doNotWant']
-		self.total = currentStats['total']
+		self.total = getTotalLensInstances()		
 		if self.total != 0:
 			self.havePercent = int(100.*self.have/self.total)
 			self.wantPercent = int(100.*self.want/self.total)

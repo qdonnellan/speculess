@@ -30,6 +30,7 @@ def changeUserBag(userID, newBagStatus, lensID):
 		updateUserBag(userID)
 		getBagInstance(userID, lensID, update = True)
 		getLensStats(lensID, update = True)
+		getTotalLensInstances(refresh = True)
 
 def updateUserBag(userID, fetch = False):
 	userBag = userLensBag.all().filter('userID = ', userID)

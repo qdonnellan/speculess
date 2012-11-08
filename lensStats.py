@@ -1,6 +1,6 @@
 from database import userLensBag
+from localUsers import getAllUsers
 from google.appengine.api import memcache
-
 
 def getLensStats(lensID, update = False):
 	cacheKey = 'currentLensStats' + lensID
@@ -12,31 +12,31 @@ def getLensStats(lensID, update = False):
 	return currentStats
 
 def makeStatCalculation(bagInstances):
-	totalInstances = getTotalLensInstances()
 	haveInstances = 0
 	wantInstances = 0
 	dontInstances = 0
-	for lens in bagInstances:
-		if lens.bagStatus != 'clearStatus':
-			totalInstances += 1
+	for lens in bagInstances:		
 		if lens.bagStatus == 'wantIt':
 			wantInstances += 1
 		if lens.bagStatus == 'haveIt':
 			haveInstances +=1
 		if lens.bagStatus == 'doNotWant':
 			dontInstances += 1
-	lensStats = {'wantIt': wantInstances, 'haveIt': haveInstances, 'doNotWant': dontInstances, 'total':totalInstances}
+	lensStats = {'wantIt': wantInstances, 'haveIt': haveInstances, 'doNotWant': dontInstances}
 	return lensStats
 
-def getTotalLensInstances():
+def getTotalLensInstances(refresh = False):
 	totalInstances = memcache.get('totalLensInstances')
-	if totalInstances is None:
+	if totalInstances is None or refresh:
 		totalInstances = 0
-		allInstances = userLensBag.all()
-		for instance in allInstances:
-			if instance.bagStatus != 'clearStatus':
+		allBagObjects = userLensBag.all()
+		listAllBags = []
+		for bagObject in allBagObjects:
+			listAllBags.append(bagObject.userID)		
+		for userID in getAllUsers():
+			if userID in listAllBags:
 				totalInstances += 1
-		memcache.set('getTotalLensInstances', totalInstances)
+		memcache.set('totalLensInstances', totalInstances)
 	return totalInstances
 
 

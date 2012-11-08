@@ -1,7 +1,6 @@
 from database import appUsers
 from google.appengine.api import memcache
 from google.appengine.api import users
-import logging
 
 #userStuff
 
@@ -16,9 +15,20 @@ def newUser(googleUserObject, success=False):
 			newUserObject = appUsers(userID = userID, nickname = googleUserObject.nickname())
 			newUserObject.put()
 			success = True
+			getAllUsers(refresh = True)
 		else:
 			success = 'ExistingUserPresent'
 	return success
+
+def getAllUsers(refresh = False):
+	allUsers = memcache.get('allUsers')
+	if allUsers is None or refresh:
+		allUsers = []
+		users = appUsers.all()
+		for user in appUsers:
+			allUsers.append(user.userID)
+		memcache.set('allUsers', allUsers)
+	return allUsers
 
 def changeUserNickname(userID, newNickname):
 	currentNicknamesList = memcache.get('currentNicknamesList')
