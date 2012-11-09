@@ -1,6 +1,6 @@
 from database import userLensBag
 from lensStats import getLensStats, getTotalLensInstances
-from lensOps import getLens, appendStats
+from lensOps import getLens
 from google.appengine.ext import db
 from google.appengine.api import memcache
 
@@ -42,18 +42,7 @@ def updateUserBag(userID, fetch = False):
 	if fetch:
 		return cachedBag
 
-class userBag():
-	def __init__(self, userID):
-		lensList = getUserBagList(userID)
-		haveList = []
-		wantList = []
-		for lens in lensList:
-			if lens.bagStatus == 'haveIt':
-				haveList.append(getLens(lens.lensID))
-			elif lens.bagStatus == 'wantIt':
-				wantList.append(getLens(lens.lensID))
-		self.want = appendStats(wantList)
-		self.have = appendStats(haveList)
+
 
 def getUserBagList(userID):
 	cacheKey = userBagCacheKey(userID)

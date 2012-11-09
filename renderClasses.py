@@ -1,6 +1,7 @@
 from comments import getUserComment, getAllUserComments
 from lensList import lensList
 from sortComments import sortComments
+from userBag import getUserBagList
 from likeObjects import getUserRating, userLikedObject, getObjectLikes
 from localUsers import getNickname
 from lensStats import getLensStats, getTotalLensInstances
@@ -14,14 +15,14 @@ def appendStats(lensList):
  		newList.append(lens)
  	return newList
 
-def formatComment(comment):
+def formatComment(comment, localUser):
 	comment.userNickname = getNickname(comment.userID)
 	comment.userRating = getUserRating(comment.userID)	
 	if comment.reviewLink is None or comment.reviewLink == '':
 		comment.reviewDisplay = 'none'
 	else:
 		comment.reviewDisplay = 'visible'			
-	objectKey = 'likesFor' + lensID + comment.userID
+	objectKey = 'likesFor' + comment.lensID + comment.userID
 	comment.count = getObjectLikes(objectKey)
 	if userLikedObject(localUser, objectKey):
 		comment.buttonStyle = 'btn-primary'
@@ -52,7 +53,7 @@ class threeColumns():
 		i = 0
 		for comment in comments:
 			if comment.comment != 'blank_comment':
-				comment = formatComment(comment)		
+				comment = formatComment(comment, localUser)		
 				self.columns[i].append(comment)
 				if i == 2:
 					i = 0
@@ -94,14 +95,31 @@ class activeTab():
 		self.personal = 'in ' +  tabDict['personal']	
 
 class userImpressions():
-	def __init__(self,userID):
-		userComments = getAllUserComments(userID)
-		lensList = []
+	def __init__(self,localUser):
+		userComments = getAllUserComments(localUser.id)	
+		impressions = []	
 		for comment in userComments:
-			lensList.append(getLens(comment.lensID))
-		self.lensList = appendStats(lensList)
-		comments = []
-		for comment in userComments:
-			comments.append(formatComment(comment))
+			impressions.append(impression(comment, localUser))
+		self.impressions = impressions
+
+class impression():
+	def __init__(self, comment, localUser):
+		self.comment = formatComment(comment, localUser)
+		lens = getLens(comment.lensID)
+		lens.stats = lensStats(lens.id)
+		self.lens = lens
+
+class userBag():
+	def __init__(self, userID):
+		lensList = getUserBagList(userID)
+		haveList = []
+		wantList = []
+		for lens in lensList:
+			if lens.bagStatus == 'haveIt':
+				haveList.append(getLens(lens.lensID))
+			elif lens.bagStatus == 'wantIt':
+				wantList.append(getLens(lens.lensID))
+		self.want = appendStats(wantList)
+		self.have = appendStats(haveList)
 
 

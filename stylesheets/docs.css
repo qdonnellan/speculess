@@ -61,6 +61,13 @@
   color:#08C;
 }
 
+.commentCard {
+  font-size:20pt; 
+  padding:8px; 
+  font-family: 'Open Sans Condensed', sans-serif; 
+  line-height:100%
+}
+
 
 .shopping {
   padding:0px;

@@ -50,8 +50,8 @@ def getUserComment(lensID, userID):
 def getAllUserComments(userID, forceRefresh = False):
 	userComments = memcache.get('commentsBy' + userID)
 	if userComments is None or forceRefresh:
-		userComments = lensComments.all().filter('userID = ', user.id)
-		memcache.set('commentsBy' + userID)
+		userComments = lensComments.all().filter('userID = ', userID)
+		memcache.set('commentsBy' + userID, userComments)
 	return userComments
 
 

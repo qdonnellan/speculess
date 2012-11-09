@@ -65,10 +65,13 @@ class userProfile(MainHandler):
     def get(self):
         activeTab = self.request.get('activeTab')
         activeTab = renderClasses.activeTab(activeTab)
-        logging.info(activeTab.wish)
         localUser = localUsers.localUser()
         if localUser.exists:
-            self.render('profile.html', userBag = userBag.userBag(localUser.id), profileActive = 'active', activeTab = activeTab)
+            self.render('profile.html', 
+                userBag = renderClasses.userBag(localUser.id), 
+                profileActive = 'active', 
+                impressions = renderClasses.userImpressions(localUser),
+                activeTab = activeTab)
         else:
             self.redirect('/authenticate?error=you must be logged in for that')
 
