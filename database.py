@@ -20,6 +20,9 @@ class appUsers(db.Model):
 	userID = db.StringProperty(required = True)
 	nickname =db.StringProperty(required = True)
 	rating = db.IntegerProperty(required = False)
+	website = db.StringProperty(required = False)
+	about = db.TextProperty(required = False)
+	imgsrc = db.TextProperty(required = False)
 
 class likes(db.Model):
 	userID = db.StringProperty(required = True)

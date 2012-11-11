@@ -9,8 +9,65 @@
 </ul>
 <div id="myTabContent" class="tab-content">
   <div class="tab-pane fade {{activeTab.personal}}" id="personalInfo">
-    <p>Interesting things about you
-    </p>
+    <div class="row">
+      <div class="span6 pull-right" style="text-align:center">
+        <img  src = "{{thisUser.imgsrc}}" style="max-height:200px">
+      </div>
+      <div class="span6">
+        <p><span class="label">username</span> {{thisUser.nickname}}    </p>
+        <p><span class="label">website</span> <a href="{{thisUser.website}}">{{thisUser.website}}</a></p>
+        <p><span class="label">rating</span> {{thisUser.rating}}</p>
+        <p><span class="label">about</span> {{thisUser.about}}</p>
+      </div>
+    </div>
+    <!-- Button to trigger modal -->
+    <div style="display:{{ displaySecure }}; margin-top:50px">
+      <a href="#modalUpdateUserInfo" role="button" class="btn btn-primary" data-toggle="modal" >
+        update information
+      </a> 
+    </div>
+    <!-- Modal -->
+    <div id="modalUpdateUserInfo" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Your Information</h3>
+      </div>
+      <form method = "post" class="form-horizontal">
+        <div class="modal-body" style="display:{{ displaySecure }}"> 
+          <div class="control-group">         
+            <label class="control-label" for = 'userNickname'>username</label>
+            <div class="controls">
+              <input type="text" name="userNickname" id = 'userNickname' value = {{thisUser.nickname}}>   
+            </div>
+          </div>
+          <div class="control-group">         
+            <label class="control-label" for = 'userWebsite'>website</label>
+            <div class="controls">
+              <input type="text" name="userWebsite" id = 'userWebsite' value = {{thisUser.website}}> <br>
+              <span class="muted" style="font-size:8pt">be sure to include 'http://' or 'https://'</span>  
+            </div>
+          </div> 
+          <div class="control-group">         
+            <label class="control-label" for = 'userAbout'>About</label>
+            <div class="controls">
+              <textarea class="userAbout" rows = '10' id = "userAbout" name="userAbout">{{thisUser.about}}</textarea>   
+            </div>
+          </div>
+          <div class="control-group">         
+            <label class="control-label" for = 'userImage'>Profile Image Source</label>
+            <div class="controls">
+              <input type="text" name="userImage" id = 'userImage' placeholder ="http://exampleImage.jpg" value = {{thisUser.imgsrc}}> <br>
+              <span class="muted" style="font-size:8pt">paste image url, max height 200px</span>  
+            </div>
+          </div>      
+            
+        </div>
+        <div class="modal-footer" style="margin-bottom:-20px">          
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Discard</button>
+            <button class="btn btn-primary" name="userInformation" type="submit">Save Information</button>          
+        </div>
+      </form>
+    </div>
   </div>
   <div class="tab-pane fade {{activeTab.have}}" id="lensBag">
     <h3 style="display:{{displaySecure}}">Your Lens Bag <small> the lenses you've said you have</small></h3>

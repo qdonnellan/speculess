@@ -105,6 +105,18 @@ class userProfile(MainHandler):
             comments.newComment(lensID=lensID, comment=impression, user = localUsers.localUser(), reviewLink=reviewLink)
             self.redirect('/profile?activeTab=impressions')
 
+        if 'userInformation' in self.request.POST:
+            userAbout = self.request.get('userAbout')
+            userNickname = self.request.get('userNickname')
+            userWebsite = self.request.get('userWebsite')
+            userImage= self.request.get('userImage')
+            user = localUsers.localUser()
+            error = localUsers.changeUserInformation(user.id, userNickname, userAbout, userWebsite, userImage)
+            if error is None:
+                self.redirect('/profile')
+            else:
+                self.redirect('/profile?error=%s' % error)
+
 
 class aboutPage(MainHandler):
     def get(self):
