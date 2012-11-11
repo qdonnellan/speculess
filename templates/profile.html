@@ -88,17 +88,34 @@
       {% endfor %}
     </ul>
   </div>
-  <div class="tab-pane fade {{activeTab.impression}}" id="yourImpressions">
+  <div class="tab-pane fade {{activeTab.impressions}}" id="yourImpressions">
     <h3>Your Impressions <small> thank you for your contribution to our community</small></h3>
     <div class="row-fluid">
       <ul class="thumbnails">
         {% for impression in impressions.impressions %}
           <li class="thumbnail span6">
-            <div class="pull-left">
-              <img src = {{impression.lens.img}} alt="" style="height:160px">
+            <div class="pull-left span4" style="text-align:center">
+              <a href="/lens/{{impression.lens.id}}">
+                <img src = {{impression.lens.img}} alt="">
+              </a>
             </div>
-            <div class="commentCard">
-              {{impression.comment.comment}}
+            <div class="commentCard span8">
+              {{impression.comment.comment}}              
+            </div>
+            <div class="span11">              
+              <div class="btn-toolbar pull-right">
+                <div class="btn-group">
+                  <a class="btn btn-link" href="{{impression.comment.reviewLink}}" style="display:{{impression.comment.reviewDisplay}}" target="_blank">Read the full review</a>
+                </div>
+                <div class="btn-group">
+                  <a class="btn btn-mini {{impression.comment.buttonStyle}} " rel="tooltip" data-placement="bottom" 
+                  title="{{impression.comment.buttonTooltip}}" href="/like/lens/{{impression.lens.id}}/{{impression.comment.userID}}?redirect=/profile?activeTab=impressions" style="display: {{ localUser.displayUser }}">
+                    Like
+                  </a>
+                  <a class="btn btn-mini disabled">12</a>
+                </div>
+              </div>
+
             </div>
           </li>
         {% endfor %}

@@ -55,11 +55,15 @@ class lensBag(MainHandler):
 
 class likeLens(MainHandler):
     def get(self, lensID=None, userID = None):
+        redirectUrl = self.request.get('redirect')
         localUser = localUsers.localUser()
         if lensID is not None and userID is not None:
             if localUser.exists:
                 likeObjects.likePress(lensID, userID, localUser)
-        self.redirect('/lens/%s' % lensID)
+        if redirectUrl is None:
+            self.redirect('/lens/%s' % lensID)
+        else:
+            self.redirect(redirectUrl)
 
 class userProfile(MainHandler):
     def get(self):
