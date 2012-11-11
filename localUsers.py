@@ -60,10 +60,13 @@ def getNickname(userID):
 	return nickname
 
 class localUser():
-	def __init__(self, existingUser=None):
-		googleUser = users.get_current_user()		
-		if googleUser:
-			existingUser = checkForUser(googleUser.user_id())
+	def __init__(self, existingUser=None, userID = None):				
+		if userID is not None:
+			existingUser = checkForUser(userID)
+		else:
+			googleUser = users.get_current_user()	
+			if googleUser:
+				existingUser = checkForUser(googleUser.user_id())
 		if existingUser is None:
 			self.exists = False
 			self.displayUser = 'None' #don't display user specific html when user not present
@@ -73,7 +76,7 @@ class localUser():
 			self.displayUser = 'visible' 
 			self.displayAlt = 'None'
 			self.nickname = existingUser.nickname
-			self.id = googleUser.user_id()
+			self.id = existingUser.userID
 			self.logoutUrl = users.create_logout_url("/")
 
 

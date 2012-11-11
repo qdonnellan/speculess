@@ -20,7 +20,7 @@
 					<div class="modal-body">					
 							<label><strong>In less than 200 characters,</strong> tell us what you think about this lens</label>
 							
-							<textarea row="10" class="span12" name="newImpression" onblur="textCounter(this,this.form.counter,200);" onkeyup="textCounter(this,this.form.counter,200);">{{ userComment.comment }}</textarea>	
+							<textarea rows="4" class="span12" name="newImpression" onblur="textCounter(this,this.form.counter,200);" onkeyup="textCounter(this,this.form.counter,200);">{{ userComment.comment }}</textarea>	
 							<input class="btn btn-primary disabled" onblur="textCounter(this.form.recipients,this,200);" disabled  onfocus="this.blur();" value="200" name="counter" style="width:30px; padding:2px ">
 							<span class="muted">characters remaining</span>
 							<span class="text-error" style="display:{{ userComment.display }}"> leave blank to delete existing comment</span>
@@ -52,7 +52,9 @@
 									<a class="btn btn-mini {{comment.buttonStyle}}" rel="tooltip" data-placement="bottom" 
 									title="{{comment.buttonTooltip}}" href="/like/lens/{{lens.id}}/{{comment.userID}}" style="display: {{ localUser.displayUser }}">Like</a>
 								</div>
-								<p class="frontNailCardName">{{comment.userNickname}} ({{ comment.userRating}})</p>
+								<p class="frontNailCardName">
+									<a href="/profile/{{comment.userID}}?activeTab=impressions">{{comment.userNickname}} ({{ comment.userRating}})</a>
+								</p>
 								<p class="frontNailCardInfo" >
 									<a class="btn btn-small btn-inverse" href="{{comment.reviewLink}}" style="display:{{comment.reviewDisplay}}" target="_blank">Read the full review</a>
 									<span style="color:#111">.</span>

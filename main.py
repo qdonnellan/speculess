@@ -60,24 +60,49 @@ class likeLens(MainHandler):
         if lensID is not None and userID is not None:
             if localUser.exists:
                 likeObjects.likePress(lensID, userID, localUser)
-        if redirectUrl is None:
+        if redirectUrl is None or redirectUrl == '':
             self.redirect('/lens/%s' % lensID)
         else:
             self.redirect(redirectUrl)
 
 class userProfile(MainHandler):
-    def get(self):
+    def get(self, userID = None):
         activeTab = self.request.get('activeTab')
-        activeTab = renderClasses.activeTab(activeTab)
+        activeTabClass = renderClasses.activeTab(activeTab)
         localUser = localUsers.localUser()
-        if localUser.exists:
-            self.render('profile.html', 
-                userBag = renderClasses.userBag(localUser.id), 
-                profileActive = 'active', 
-                impressions = renderClasses.userImpressions(localUser),
-                activeTab = activeTab)
+        if userID is None:            
+            if localUser.exists:
+                self.render('profile.html', 
+                    userBag = renderClasses.userBag(localUser.id), 
+                    profileActive = 'active', 
+                    thisUser = localUser,
+                    impressions = renderClasses.userImpressions(localUser),
+                    activeTab = activeTabClass,
+                    displaySecure = 'visible',
+                    displaySecureAlt = 'none')
+            else:
+                self.redirect('/authenticate?error=you must be logged in for that')
         else:
-            self.redirect('/authenticate?error=you must be logged in for that')
+            if userID == localUser.id:
+                self.redirect('/profile?activeTab=%s' % activeTab)
+            else:
+                thisUser = localUsers.localUser(userID = userID)
+                self.render('profile.html', 
+                        userBag = renderClasses.userBag(thisUser.id), 
+                        impressions = renderClasses.userImpressions(localUser, commentUserID = thisUser.id),
+                        activeTab = activeTabClass,
+                        displaySecure = 'none',
+                        thisUser = thisUser,
+                        displaySecureAlt = 'visible')
+
+    def post(self):
+        if 'userImpression' in self.request.POST:
+            impression = self.request.get('newImpression')
+            reviewLink = self.request.get('reviewLink') 
+            lensID = self.request.get('lensID')        
+            comments.newComment(lensID=lensID, comment=impression, user = localUsers.localUser(), reviewLink=reviewLink)
+            self.redirect('/profile?activeTab=impressions')
+
 
 class aboutPage(MainHandler):
     def get(self):
@@ -105,6 +130,7 @@ app = webapp2.WSGIApplication([
     ('/authenticate', userAuth),
     ('/like/lens/(\w+)/(\w+)', likeLens),
     ('/profile', userProfile),
+    ('/profile/(\w+)', userProfile),
     ('/myBag', lensBag),
     ('/about', aboutPage),
     ('.*', MainPage),

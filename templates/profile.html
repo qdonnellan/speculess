@@ -13,7 +13,8 @@
     </p>
   </div>
   <div class="tab-pane fade {{activeTab.have}}" id="lensBag">
-    <h3>Your Lenses <small> the lenses you've said you have</small></h3>
+    <h3 style="display:{{displaySecure}}">Your Lens Bag <small> the lenses you've said you have</small></h3>
+    <h3 style="display:{{displaySecureAlt}}">{{thisUser.nickname}}'s Lens Bag </h3>
   	<ul class="thumbnails">
       {% for lens in userBag.have %}
       <li class="frontNail span3">
@@ -42,7 +43,8 @@
     </ul>
   </div>
   <div class="tab-pane fade {{activeTab.wish}}" id="wishList">
-    <h3>Your Wish List <small> the lenses you want to have</small></h3>
+    <h3 style="display:{{displaySecure}}">Your Wish List <small> the lenses you want to have</small></h3>
+    <h3 style="display:{{displaySecureAlt}}">{{thisUser.nickname}}'s Wish List </h3>
     <ul class="thumbnails">
       {% for lens in userBag.want %}
       <li class="frontNail span3">
@@ -89,30 +91,74 @@
     </ul>
   </div>
   <div class="tab-pane fade {{activeTab.impressions}}" id="yourImpressions">
-    <h3>Your Impressions <small> thank you for your contribution to our community</small></h3>
+    <div style="display: {{displaySecure}}">
+      <p>
+        <span class="label label-success">Share your impressions</span> copy the link below and share this impressions page with others
+        <pre>http://speculess.com/profile/{{localUser.id}}?activeTab=impressions</pre>  
+      </p> 
+    </div>
+    <h3 style="display: {{displaySecure}}">Your Impressions <small> thank you for your contribution to our community</small></h3>
+    <h3 style="display:{{displaySecureAlt}}">{{thisUser.nickname}}'s Impressions </h3>
+    
     <div class="row-fluid">
       <ul class="thumbnails">
         {% for impression in impressions.impressions %}
           <li class="thumbnail span6">
             <div class="pull-left span4" style="text-align:center">
-              <a href="/lens/{{impression.lens.id}}">
+              <a href="/lens/{{impression.lens.id}}" >
                 <img src = {{impression.lens.img}} alt="">
               </a>
+              <p class="muted" style="font-size:8pt">{{impression.lens.man}} | {{impression.lens.name}}</p>
             </div>
-            <div class="commentCard span8">
-              {{impression.comment.comment}}              
+            <div class="span8">
+              <!-- Button to trigger modal -->
+              <div class="span12" style="display:{{ displaySecure }}">
+                <a href="#modal{{impression.lens.id}}" role="button" class="btn btn-link pull-right btn-mini" data-toggle="modal" >
+                  <span>[ Edit this impression ]</span>
+                </a> 
+              </div>
+              <!-- Modal -->
+              <div id="modal{{impression.lens.id}}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                  <h3 id="myModalLabel">Your Impression</h3>
+                  <h3><small>{{impression.lens.man }} | {{ impression.lens.name }}</small></h3>
+                </div>
+                <form method = "post">
+                  <div class="modal-body" style="display:{{ displaySecure }}">          
+                      <label><strong>In less than 200 characters,</strong> tell us what you think about this lens</label>
+                      
+                      <textarea rows="4" class="span12" name="newImpression" onblur="textCounter(this,this.form.counter,200);" onkeyup="textCounter(this,this.form.counter,200);">{{ impression.comment.comment }}</textarea>  
+                      <input class="btn btn-primary disabled" onblur="textCounter(this.form.recipients,this,200);" disabled  onfocus="this.blur();" value="200" name="counter" style="width:30px; padding:2px ">
+                      <span class="muted">characters remaining</span>
+                      <span class="text-error"> leave blank to delete existing comment</span>
+                      <br><br> <hr>
+                      <label><strong>Link to your site</strong>, if you've written a detailed review on this lens, link to it here!</label>
+                      <input type="text" class="span12" name="reviewLink" placeholder="http://myreviewblog.example.com" value = "{{impression.comment.link}}">
+                      <input type="hidden" name="lensID" value = "{{impression.lens.id}}">
+                      <label class="muted">Make sure you include "http://", "https://", etc. or your link will not work correctly</label>
+                  </div>
+                  <div class="modal-footer" style="margin-bottom:-20px">          
+                      <button class="btn" data-dismiss="modal" aria-hidden="true">Discard</button>
+                      <button class="btn btn-primary" name="userImpression" type="submit">Save Impression</button>          
+                  </div>
+                </form>
+              </div>
+              <p class="commentCard">
+                {{impression.comment.comment}}   
+              </p>           
             </div>
-            <div class="span11">              
-              <div class="btn-toolbar pull-right">
+            <div class="span11" style="margin-bottom:3px;">              
+              <div class="btn-toolbar pull-right" >
                 <div class="btn-group">
                   <a class="btn btn-link" href="{{impression.comment.reviewLink}}" style="display:{{impression.comment.reviewDisplay}}" target="_blank">Read the full review</a>
                 </div>
                 <div class="btn-group">
                   <a class="btn btn-mini {{impression.comment.buttonStyle}} " rel="tooltip" data-placement="bottom" 
-                  title="{{impression.comment.buttonTooltip}}" href="/like/lens/{{impression.lens.id}}/{{impression.comment.userID}}?redirect=/profile?activeTab=impressions" style="display: {{ localUser.displayUser }}">
-                    Like
+                  title="{{impression.comment.buttonTooltip}}" href="/like/lens/{{impression.lens.id}}/{{impression.comment.userID}}?redirect=/profile/{{thisUser.id}}?activeTab=impressions" style="display: {{ localUser.displayUser }}">
+                    impressed
                   </a>
-                  <a class="btn btn-mini disabled">12</a>
+                  <a class="btn btn-mini disabled">{{impression.comment.count}}</a>
                 </div>
               </div>
 

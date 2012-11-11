@@ -26,10 +26,10 @@ def formatComment(comment, localUser):
 	comment.count = getObjectLikes(objectKey)
 	if userLikedObject(localUser, objectKey):
 		comment.buttonStyle = 'btn-primary'
-		comment.buttonTooltip = 'You liked this comment, click again to unlike'					
+		comment.buttonTooltip = 'You found this impression useful. Click again to undo'					
 	else:
 		comment.buttonStyle = 'btn-inverse'
-		comment.buttonTooltip = 'Like this impression if you feel it is useful'
+		comment.buttonTooltip = 'Is this impression useful? Click to recommend'
 	return comment
 
 
@@ -95,8 +95,10 @@ class activeTab():
 		self.personal = 'in ' +  tabDict['personal']	
 
 class userImpressions():
-	def __init__(self,localUser):
-		userComments = getAllUserComments(localUser.id)	
+	def __init__(self,localUser,commentUserID=None):
+		if commentUserID is None:
+			commentUserID = localUser.id
+		userComments = getAllUserComments(commentUserID)	
 		impressions = []	
 		for comment in userComments:
 			impressions.append(impression(comment, localUser))
