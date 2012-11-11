@@ -25,13 +25,15 @@ def sortLenses(lensList, sortMethod='have'):
 	tempTuple = []
 	if sortMethod == 'have':
 		for lens in lensList:
-			tempTuple.append([lens.stats.have, lens])
-			
+			tempTuple.append([lens.stats.have, lens.stats.want, lens])
+
+	#sort first by wants, then by haves to force want as the secondary key
+	tempTuple = sorted(tempTuple, key=operator.itemgetter(1), reverse = True)		
 	tempTuple = sorted(tempTuple, key=operator.itemgetter(0), reverse = True)
 
 	lensList = []
 	for lens in tempTuple:
-		lensList.append(lens[1])
+		lensList.append(lens[2])
 
 	return lensList
 

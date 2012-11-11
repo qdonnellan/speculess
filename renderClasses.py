@@ -28,7 +28,7 @@ def formatComment(comment, localUser):
 		comment.buttonStyle = 'btn-primary'
 		comment.buttonTooltip = 'You found this impression useful. Click again to undo'					
 	else:
-		comment.buttonStyle = 'btn-inverse'
+		comment.buttonStyle = 'btn'
 		comment.buttonTooltip = 'Is this impression useful? Click to recommend'
 	return comment
 
@@ -48,7 +48,7 @@ class userComment():
 
 class threeColumns():
 	def __init__(self,lensID, localUser, sortMethod = 'rating'):
-		comments = sortComments(lensID, sortMethod = sortMethod, numToGet = 10)
+		comments = sortComments(lensID, sortMethod = sortMethod, numToGet = 12)
 		self.columns = [[],[],[]]
 		i = 0
 		for comment in comments:
@@ -103,6 +103,18 @@ class userImpressions():
 		for comment in userComments:
 			impressions.append(impression(comment, localUser))
 		self.impressions = impressions
+
+class twoColumnImpressions():
+	def __init__(self,localUser, commentUserID=None):
+		allImpressions = userImpressions(localUser, commentUserID)
+		self.columns = [[],[]]
+		i=0
+		for impression in allImpressions.impressions:
+			self.columns[i].append(impression)
+			if i == 1:
+				i = 0
+			else:
+				i += 1
 
 class impression():
 	def __init__(self, comment, localUser):

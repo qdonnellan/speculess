@@ -78,7 +78,7 @@ class userProfile(MainHandler):
                     userBag = renderClasses.userBag(localUser.id), 
                     profileActive = 'active', 
                     thisUser = localUser,
-                    impressions = renderClasses.userImpressions(localUser),
+                    impressions = renderClasses.twoColumnImpressions(localUser),
                     activeTab = activeTabClass,
                     displaySecure = 'visible',
                     displaySecureAlt = 'none')
@@ -91,7 +91,7 @@ class userProfile(MainHandler):
                 thisUser = localUsers.localUser(userID = userID)
                 self.render('profile.html', 
                         userBag = renderClasses.userBag(thisUser.id), 
-                        impressions = renderClasses.userImpressions(localUser, commentUserID = thisUser.id),
+                        impressions = renderClasses.twoColumnImpressions(localUser, commentUserID = thisUser.id),
                         activeTab = activeTabClass,
                         displaySecure = 'none',
                         thisUser = thisUser,

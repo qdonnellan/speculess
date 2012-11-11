@@ -40,18 +40,20 @@
 				<div class="span4">
 					<ul class="thumbnails">				
 						{% for comment in column %}
-						<li class = "thumbnail span12">					
-							<div class="commentCard">
-								{{ comment.comment }}
-							</div>
-							<div style="margin:0px -5px -5px -5px; background:#111; padding:8px">
-								<div class="pull-right" style="text-align:center">
-									<p class="text-warning" style="font-family: 'Open Sans Condensed', sans-serif; font-size:20pt;">
-										{{comment.count}}
-									</p>
-									<a class="btn btn-mini {{comment.buttonStyle}}" rel="tooltip" data-placement="bottom" 
-									title="{{comment.buttonTooltip}}" href="/like/lens/{{lens.id}}/{{comment.userID}}" style="display: {{ localUser.displayUser }}">Like</a>
+						<li class = "thumbnail span12">
+							<div>					
+								<div class="commentCard">
+									{{ comment.comment }}					
 								</div>
+								<div style="margin:10px; text-align:right">
+									<div class="btn-group">
+										<a class="btn btn-mini {{comment.buttonStyle}}" rel="tooltip" data-placement="bottom" 
+										title="{{comment.buttonTooltip}}" href="/like/lens/{{lens.id}}/{{comment.userID}}" style="display: {{ localUser.displayUser }}">impressed</a>
+										<a class="btn btn-mini disabled">{{comment.count}}</a>
+									</div>
+								</div>
+							</div>
+							<div style="margin:0px -5px -5px -5px; background:#111; padding:8px">							
 								<p class="frontNailCardName">
 									<a href="/profile/{{comment.userID}}?activeTab=impressions">{{comment.userNickname}} ({{ comment.userRating}})</a>
 								</p>

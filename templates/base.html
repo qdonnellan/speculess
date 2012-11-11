@@ -29,28 +29,19 @@
 		<!-- end Google Analytics -->
 		<title>speculess</title>
 	</head>
-	<body>
+	<body>		
 		<div class="navbar navbar-fixed-top navbar-inverse">
 			<div class="navbar-inner">
 				<div class="container">
 					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
 						<span class="icon-bar"></span>
 					</a>
-					<a class="brand" href="/" >specu<span>less</span></a>
+					<a class="brand" href="/" >specu<span>less</span></a>					
 					<div class="btn-group pull-right" style="display:{{ localUser.displayUser}};">
-						<a class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" href="#" style="font-size:12px" >
-							<span style="display:{{ localUser.displayUser}}">{{localUser.nickname}}</span>
-							<span class="caret"></span>
-						</a>						
-						<ul class="dropdown-menu">
-							<li style="display:{{ localUser.displayUser}}">
-								<a href="/profile"><i class="icon icon-user"></i> Profile</a>
-							</li>
-							<li class="divider" style="display:{{ localUser.displayUser }}"></li>
-							<li style="display:{{ localUser.displayUser}}">
-								<a href="{{localUser.logoutUrl |safe }}"><i class="icon icon-off"></i> Sign Out of Google</a>
-							</li>
-						</ul>
+						<a class="btn btn-small btn-success" href="/profile" style="font-size:10pt">
+							{{localUser.nickname}}							
+						</a>
+						<a class ="btn btn-small  btn-inverse" href="{{localUser.logoutUrl |safe }}">Sign Out</a>		
 					</div>
 					<a class="btn btn-success pull-right" href = "/authenticate" style="display:{{localUser.displayAlt}}">
 						sign up - sign In
@@ -64,11 +55,11 @@
 					</div><!--/.nav-collapse -->
 				</div>
 			</div>
-	    </div>
-
+	    </div>	    
 		<div class="container">	
 			{% block body %}{% endblock %}	
 		</div>
+		
 
 		<footer class="footer">
 			<div class="container">

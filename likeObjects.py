@@ -51,7 +51,6 @@ def userLikedObject(localUser,objectID):
 	likeHistory = getUserLikeHistory(localUser)
 	ping = False
 	for like in likeHistory:
-		logging.info('objectID is ' + objectID)
 		if like.objectID == objectID:
 			ping = True
 	return ping

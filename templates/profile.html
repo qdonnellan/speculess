@@ -101,9 +101,10 @@
     <h3 style="display:{{displaySecureAlt}}">{{thisUser.nickname}}'s Impressions </h3>
     
     <div class="row-fluid">
-      <ul class="thumbnails">
-        {% for impression in impressions.impressions %}
-          <li class="thumbnail span6">
+      {% for column in impressions.columns %}
+      <ul class="thumbnails span6">
+        {% for impression in column %}
+          <li class="thumbnail">
             <div class="pull-left span4" style="text-align:center">
               <a href="/lens/{{impression.lens.id}}" >
                 <img src = {{impression.lens.img}} alt="">
@@ -166,6 +167,7 @@
           </li>
         {% endfor %}
       </ul>
+      {% endfor %}
     </div>
   </div>    
 </div>
