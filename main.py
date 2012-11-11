@@ -23,13 +23,14 @@ class lensInfo(MainHandler):
     def get(self, lensID):
         localUser = localUsers.localUser() 
         lens = getLens(lensID)  
-        lensStats = renderClasses.lensStats(lensID)            
+        lensStats = renderClasses.lensStats(lensID) 
+        sortMethod = self.request.get('sortMethod')           
         if lens is not None:       
             self.render('lensPage.html', 
                 lens = lens,
                 lensStats = renderClasses.lensStats(lensID),  
                 userComment = renderClasses.userComment(lensID, localUser),               
-                comments = renderClasses.threeColumns(lensID, localUser),
+                comments = renderClasses.threeColumns(lensID, localUser, sortMethod=sortMethod),
                 lensStatus = userBag.lensStatus(localUser, lensID = lensID))
         else:
             self.redirect('/')
@@ -85,7 +86,11 @@ class userProfile(MainHandler):
             else:
                 self.redirect('/authenticate?error=you must be logged in for that')
         else:
-            if userID == localUser.id:
+            sameUser = False
+            if localUser.exists:
+                if userID == localUser.id:
+                    sameUser = True
+            if sameUser:
                 self.redirect('/profile?activeTab=%s' % activeTab)
             else:
                 thisUser = localUsers.localUser(userID = userID)

@@ -35,6 +35,13 @@
 					</div>
 				</form>
 			</div>	
+			<div>
+				Sort by: 
+				<a href="/lens/{{lens.id}}">Top Rated</a>
+				<a href="/lens/{{lens.id}}?sortMethod=random">Random</a>
+				<a href="/lens/{{lens.id}}?sortMethod=latest">Latest</a>
+				
+			</div>
 			<div style="margin-top:20px">
 				{% for column in comments.columns %}
 				<div class="span4">
@@ -49,6 +56,7 @@
 									<div class="btn-group">
 										<a class="btn btn-mini {{comment.buttonStyle}}" rel="tooltip" data-placement="bottom" 
 										title="{{comment.buttonTooltip}}" href="/like/lens/{{lens.id}}/{{comment.userID}}" style="display: {{ localUser.displayUser }}">impressed</a>
+										<a class="btn btn-mini btn-inverse disabled" style="display:{{localUser.displayAlt}}">rating</a>
 										<a class="btn btn-mini disabled">{{comment.count}}</a>
 									</div>
 								</div>

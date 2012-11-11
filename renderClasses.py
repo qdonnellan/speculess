@@ -47,7 +47,7 @@ class userComment():
 					self.displayAlt = 'none'
 
 class threeColumns():
-	def __init__(self,lensID, localUser, sortMethod = 'rating'):
+	def __init__(self,lensID, localUser, sortMethod = None):
 		comments = sortComments(lensID, sortMethod = sortMethod, numToGet = 12)
 		self.columns = [[],[],[]]
 		i = 0

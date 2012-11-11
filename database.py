@@ -10,6 +10,7 @@ class lensComments(db.Model):
 	comment = db.TextProperty(required = True)
 	userID = db.StringProperty(required = True)
 	reviewLink = db.StringProperty(required=False)
+	created = db.DateTimeProperty(auto_now = True)
 
 class userLensBag(db.Model):
 	userID = db.StringProperty(required = True)

@@ -2,19 +2,29 @@ from comments import getComments
 from likeObjects import getObjectLikes
 from google.appengine.api import memcache
 import operator
+import random
 
-def sortComments(lensID, sortMethod = None, forceRefresh = False, numToGet = None):
+def sortComments(lensID, sortMethod = None, forceRefresh = False, numToGet = 12):
 	comments = getComments(lensID)
-	commentList = []
-	if sortMethod == 'rating' or forceRefresh:		
+	commentList = []	
+
+	if sortMethod == 'random':
+		for comment in comments:
+			commentList.append(comment)
+		comments = random.sample(commentList,min(numToGet, len(commentList)))
+
+	elif sortMethod == 'latest':
+		comments = sorted(comments, key=operator.attrgetter('created'), reverse=True)
+
+	else:		
 		for comment in comments:
 			objectKey = 'likesFor' + lensID + comment.userID
 			commentList.append([getObjectLikes(objectKey),comment])
 		commentList = sorted(commentList, key=operator.itemgetter(0), reverse=True)
 
-	comments = []
-	for item in commentList:
-		comments.append(item[1])
+		comments = []
+		for item in commentList:
+			comments.append(item[1])
 
 	if numToGet is not None:
 		comments = comments[0:numToGet]	

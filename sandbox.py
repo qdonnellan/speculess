@@ -1,3 +1,4 @@
-#test changes
-#testing changes to mercurial.ini file
-#argH!
+q = 34
+x = 12
+
+print max(q,x)
