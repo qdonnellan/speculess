@@ -1,6 +1,6 @@
 from comments import getUserComment, getAllUserComments
 from lensList import lensList
-from sortComments import sortComments
+from sorter import sortComments
 from userBag import getUserBagList
 from likeObjects import getUserRating, userLikedObject, getObjectLikes
 from localUsers import getNickname

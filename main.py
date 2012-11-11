@@ -5,6 +5,7 @@ from google.appengine.api import users
 from handlers import MainHandler
 from lensOps import getLens
 from lensList import lensList
+from sorter import sortLenses
 import likeObjects
 import comments
 import database
@@ -14,8 +15,9 @@ import renderClasses
 import logging
 
 class MainPage(MainHandler):
-    def get(self):        
-        self.render('front.html', lenses=renderClasses.appendStats(lensList), homeActive = 'active')
+    def get(self):
+        lenses = renderClasses.appendStats(lensList)        
+        self.render('front.html', lenses=sortLenses(lenses), homeActive = 'active')
 
 class lensInfo(MainHandler):    
     def get(self, lensID):
