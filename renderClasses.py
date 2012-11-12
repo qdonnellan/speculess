@@ -30,6 +30,7 @@ def formatComment(comment, localUser):
 	else:
 		comment.buttonStyle = 'btn'
 		comment.buttonTooltip = 'Is this impression useful? Click to recommend'
+	comment.time = comment.created.strftime('%d %h %Y')
 	return comment
 
 
@@ -94,6 +95,17 @@ class activeTab():
 		self.impressions = 'in ' +  tabDict['impressions']
 		self.personal = 'in ' +  tabDict['personal']	
 
+class activePill():
+	def __init__(self,activePill):
+		if activePill == 'latest':
+			self.latest = 'active'
+		elif activePill == 'random':
+			self.random = 'active'
+		elif activePill == 'age':
+			self.age = 'active'
+		else: #defaul active pill is rated
+			self.rated = 'active'
+
 class userImpressions():
 	def __init__(self,localUser,commentUserID=None):
 		if commentUserID is None:
@@ -135,5 +147,19 @@ class userBag():
 				wantList.append(getLens(lens.lensID))
 		self.want = appendStats(wantList)
 		self.have = appendStats(haveList)
+
+class makeAlerts():
+    def __init__(self, error = None, success = None):
+        self.errorMsg = error
+        self.successMsg = success
+        if error is not None and error != '':
+            self.errorDisplay = 'visible'
+        else:
+            self.errorDisplay = 'none'
+
+        if success is not None and success != '':
+            self.successDisplay = 'visible'
+        else:
+            self.successDisplay = 'none'
 
 

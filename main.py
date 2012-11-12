@@ -16,8 +16,10 @@ import logging
 
 class MainPage(MainHandler):
     def get(self):
-        lenses = renderClasses.appendStats(lensList)        
-        self.render('front.html', lenses=sortLenses(lenses), homeActive = 'active')
+        lenses = renderClasses.appendStats(lensList)
+        sortMethod = self.request.get('sortMethod')
+        activePill = renderClasses.activePill(sortMethod)        
+        self.render('front.html', lenses=sortLenses(lenses, sortMethod), activePill = activePill, homeActive = 'active')
 
 class lensInfo(MainHandler):    
     def get(self, lensID):
@@ -31,6 +33,7 @@ class lensInfo(MainHandler):
                 lensStats = renderClasses.lensStats(lensID),  
                 userComment = renderClasses.userComment(lensID, localUser),               
                 comments = renderClasses.threeColumns(lensID, localUser, sortMethod=sortMethod),
+                activePill = renderClasses.activePill(sortMethod),
                 lensStatus = userBag.lensStatus(localUser, lensID = lensID))
         else:
             self.redirect('/')
@@ -129,13 +132,14 @@ class aboutPage(MainHandler):
 
 class userAuth(MainHandler):
     def get(self):
+        error = self.request.get('error')
         newAccountSetup = self.request.get('setup')
         if newAccountSetup == 'True':            
             creationAttempt = localUsers.newUser(users.get_current_user())
             if creationAttempt == True:
-                self.redirect('/?creation=success')
+                self.redirect('/?success=you have successfully created an account')
             elif creationAttempt == 'ExistingUserPresent':
-                self.redirect('/?error=you are now logged in!')
+                self.redirect('/?success=you are now logged in')
             else:
                 self.redirect('/authenticate?error=something went wrong')
 

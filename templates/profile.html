@@ -11,7 +11,7 @@
   <div class="tab-pane fade {{activeTab.personal}}" id="personalInfo">
     <div class="row">
       <div class="span6 pull-right" style="text-align:center">
-        <img  src = "{{thisUser.imgsrc}}" style="max-height:200px">
+        <img  src = "{{thisUser.imgsrc}}" style="max-height:280px">
       </div>
       <div class="span6">
         <p><span class="label">username</span> {{thisUser.nickname}}    </p>
@@ -50,14 +50,14 @@
           <div class="control-group">         
             <label class="control-label" for = 'userAbout'>About</label>
             <div class="controls">
-              <textarea class="userAbout" rows = '10' id = "userAbout" name="userAbout">{{thisUser.about}}</textarea>   
+              <textarea class="userAbout" rows = '5' id = "userAbout" name="userAbout">{{thisUser.about}}</textarea>   
             </div>
           </div>
           <div class="control-group">         
             <label class="control-label" for = 'userImage'>Profile Image Source</label>
             <div class="controls">
               <input type="text" name="userImage" id = 'userImage' placeholder ="http://exampleImage.jpg" value = {{thisUser.imgsrc}}> <br>
-              <span class="muted" style="font-size:8pt">paste image url, max height 200px</span>  
+              <span class="muted" style="font-size:8pt">paste image url (max height: 280px)</span>  
             </div>
           </div>      
             
@@ -169,9 +169,11 @@
               <p class="muted" style="font-size:8pt">{{impression.lens.man}} | {{impression.lens.name}}</p>
             </div>
             <div class="span8">
+              
               <!-- Button to trigger modal -->
-              <div class="span12" style="display:{{ displaySecure }}">
-                <a href="#modal{{impression.lens.id}}" role="button" class="btn btn-link pull-right btn-mini" data-toggle="modal" >
+              <div class="span12">
+                <span class="pull-left muted" style="font-size:8pt;">{{ impression.comment.time}}</span>
+                <a href="#modal{{impression.lens.id}}" role="button" class="btn btn-link pull-right btn-mini" data-toggle="modal" style="display:{{ displaySecure }}" >
                   <span>[ Edit this impression ]</span>
                 </a> 
               </div>
@@ -201,7 +203,7 @@
                       <button class="btn btn-primary" name="userImpression" type="submit">Save Impression</button>          
                   </div>
                 </form>
-              </div>
+              </div>              
               <p class="commentCard">
                 {{impression.comment.comment}}   
               </p>           
@@ -211,13 +213,19 @@
                 <div class="btn-group">
                   <a class="btn btn-link" href="{{impression.comment.reviewLink}}" style="display:{{impression.comment.reviewDisplay}}" target="_blank">Read the full review</a>
                 </div>
-                <div class="btn-group">
+                <div class="btn-group" style="display:{{localUser.displayUser}}">
                   <a class="btn btn-mini {{impression.comment.buttonStyle}} " rel="tooltip" data-placement="bottom" 
-                  title="{{impression.comment.buttonTooltip}}" href="/like/lens/{{impression.lens.id}}/{{impression.comment.userID}}?redirect=/profile/{{thisUser.id}}?activeTab=impressions" style="display: {{ localUser.displayUser }}">
+                  title="{{impression.comment.buttonTooltip}}" href="/like/lens/{{impression.lens.id}}/{{impression.comment.userID}}?redirect=/profile/{{thisUser.id}}?activeTab=impressions">
                     impressed
                   </a>
-                  <a class="btn btn-mini btn-inverse disabled" style="display:{{localUser.displayAlt}}">rating</a>
                   <a class="btn btn-mini disabled">{{impression.comment.count}}</a>
+                </div>
+                <div class="btn-group" style="display:{{localUser.displayAlt}}">
+                  <button class="btn btn-mini disabled" rel="tooltip" data-placement="bottom" 
+                  title="Sign in or create account to recommend impressions">
+                    impressed
+                  </button>
+                  <button class="btn btn-mini disabled">{{impression.comment.count}}</button>
                 </div>
               </div>
 

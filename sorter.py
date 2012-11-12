@@ -2,6 +2,7 @@ from comments import getComments
 from likeObjects import getObjectLikes
 from google.appengine.api import memcache
 import operator
+import logging
 import random
 
 def sortComments(lensID, sortMethod = None, forceRefresh = False, numToGet = 12):
@@ -30,21 +31,34 @@ def sortComments(lensID, sortMethod = None, forceRefresh = False, numToGet = 12)
 		comments = comments[0:numToGet]	
 	return comments
 
-def sortLenses(lensList, sortMethod='have'):
+def sortLenses(lensList, sortMethod=None):
 	#only works on lensList with appended stats
 	tempTuple = []
-	if sortMethod == 'have':
+	
+
+	if sortMethod == 'age':
+		logging.info('sort method is age')
+		for lens in lensList:
+			tempTuple.append([lens.born, lens])
+		tempTuple = sorted(tempTuple, key=operator.itemgetter(0), reverse = True)
+
+		lensList = []
+		for lens in tempTuple:
+			lensList.append(lens[1])
+
+	else: #sortMethod == 'have': is the default sort
 		for lens in lensList:
 			tempTuple.append([lens.stats.have, lens.stats.want, lens.stats.dont, lens])
 
-	#sort first by wants, then by haves to force want as the secondary key
-	tempTuple = sorted(tempTuple, key=operator.itemgetter(2), reverse = False)
-	tempTuple = sorted(tempTuple, key=operator.itemgetter(1), reverse = True)		
-	tempTuple = sorted(tempTuple, key=operator.itemgetter(0), reverse = True)
+		#sort first by wants, then by haves to force want as the secondary key
+		tempTuple = sorted(tempTuple, key=operator.itemgetter(2), reverse = False)
+		tempTuple = sorted(tempTuple, key=operator.itemgetter(1), reverse = True)		
+		tempTuple = sorted(tempTuple, key=operator.itemgetter(0), reverse = True)
 
-	lensList = []
-	for lens in tempTuple:
-		lensList.append(lens[3])
+		lensList = []
+		for lens in tempTuple:
+			lensList.append(lens[3])
+
 
 	return lensList
 

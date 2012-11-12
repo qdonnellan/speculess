@@ -108,6 +108,7 @@ class localUser():
 			self.exists = False
 			self.displayUser = 'None' #don't display user specific html when user not present
 			self.displayAlt = 'visible' #display alternate html when no user present
+			self.btnDisabled = 'disabled'
 		else:
 			self.exists = True
 			self.displayUser = 'visible' 
@@ -123,5 +124,8 @@ class localUser():
 			self.rating = existingUser.rating
 			self.logoutUrl = users.create_logout_url("/")
 			self.imgsrc = existingUser.imgsrc
+			if self.imgsrc is None or self.imgsrc == '':
+				self.imgsrc = 'http://placehold.it/280x280'
+			
 
 

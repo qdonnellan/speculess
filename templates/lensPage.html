@@ -4,11 +4,7 @@
 		<div class="span9">
 			<h3>User Impressions<small> what the community thinks about this lens</small></h3>
 
-			<!-- Button to trigger modal -->
-			<a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal" style="display:{{ localUser.displayUser}}">
-				<span style="display:{{userComment.displayAlt}}">Add your own impression</span>
-				<span style="display:{{userComment.display}}">Change your existing impression</span>
-			</a> 
+			 
 			<!-- Modal -->
 			<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class="modal-header">
@@ -34,13 +30,25 @@
 							<button class="btn btn-primary" name="userImpression" type="submit">Save Impression</button>					
 					</div>
 				</form>
-			</div>	
-			<div>
-				Sort by: 
-				<a href="/lens/{{lens.id}}">Top Rated</a>
-				<a href="/lens/{{lens.id}}?sortMethod=random">Random</a>
-				<a href="/lens/{{lens.id}}?sortMethod=latest">Latest</a>
-				
+			</div>
+
+			<div class="row-fluid">
+				<!-- Button to trigger modal -->
+			<a href="#myModal" role="button" class="btn btn-primary pull-left" data-toggle="modal" style="display:{{ localUser.displayUser}}">
+				<span style="display:{{userComment.displayAlt}}">Add your own impression</span>
+				<span style="display:{{userComment.display}}">Change your existing impression</span>
+			</a>
+				<ul class="nav nav-pills pull-right">
+					<li class="{{activePill.rated}}">
+						<a href="/lens/{{lens.id}}">Top Rated</a>
+					</li>
+					<li class="{{activePill.random}}">
+						<a href="/lens/{{lens.id}}?sortMethod=random">Random</a>
+					</li>
+					<li class="{{activePill.latest}}">
+						<a href="/lens/{{lens.id}}?sortMethod=latest">Latest</a>
+					</li>
+				</ul>				
 			</div>
 			<div style="margin-top:20px">
 				{% for column in comments.columns %}
@@ -48,16 +56,22 @@
 					<ul class="thumbnails">				
 						{% for comment in column %}
 						<li class = "thumbnail span12">
-							<div>					
-								<div class="commentCard">
+							<div>	
+								<span class="muted" style="font-size:8pt">{{ comment.time}}</span>				
+								<div class="commentCard">									
 									{{ comment.comment }}					
 								</div>
 								<div style="margin:10px; text-align:right">
-									<div class="btn-group">
+									<div class="btn-group" style="display:{{localUser.displayUser}}">
 										<a class="btn btn-mini {{comment.buttonStyle}}" rel="tooltip" data-placement="bottom" 
-										title="{{comment.buttonTooltip}}" href="/like/lens/{{lens.id}}/{{comment.userID}}" style="display: {{ localUser.displayUser }}">impressed</a>
-										<a class="btn btn-mini btn-inverse disabled" style="display:{{localUser.displayAlt}}">rating</a>
+										title="{{comment.buttonTooltip}}" href="/like/lens/{{lens.id}}/{{comment.userID}}">impressed</a>			
 										<a class="btn btn-mini disabled">{{comment.count}}</a>
+									</div>
+									<div class="btn-group" style="display:{{localUser.displayAlt}}">
+										<button class="btn btn-mini disabled" rel="tooltip" data-placement="bottom" title="Sign in or create account to recommend impressions">
+											impressed
+										</button>
+										<button class="btn btn-mini disabled">{{comment.count}}</button>
 									</div>
 								</div>
 							</div>
@@ -67,7 +81,6 @@
 								</p>
 								<p class="frontNailCardInfo" >
 									<a class="btn btn-small btn-inverse" href="{{comment.reviewLink}}" style="display:{{comment.reviewDisplay}}" target="_blank">Read the full review</a>
-									<span style="color:#111">.</span>
 								</p>								
 							</div>
 						</li>

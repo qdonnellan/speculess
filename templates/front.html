@@ -1,6 +1,16 @@
 {% extends "base.html" %}
 {% block body %}
 <div class="row-fluid">
+	<div class="row-fluid">
+		<ul class="nav nav-pills pull-right">
+			<li class="{{activePill.rated}}">
+				<a href="/">Most Popular</a>
+			</li>
+			<li class="{{activePill.age}}">
+				<a href="/?sortMethod=age">Newest</a>
+			</li>
+		</ul>
+	</div>
 	<ul class="thumbnails">
 		{% for lens in lenses %}
 		<li class="frontNail span3">
