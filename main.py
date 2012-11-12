@@ -13,6 +13,7 @@ import userBag
 import localUsers
 import renderClasses
 import logging
+import lensUses
 
 class MainPage(MainHandler):
     def get(self):
@@ -26,7 +27,8 @@ class lensInfo(MainHandler):
         localUser = localUsers.localUser() 
         lens = getLens(lensID)  
         lensStats = renderClasses.lensStats(lensID) 
-        sortMethod = self.request.get('sortMethod')           
+        sortMethod = self.request.get('sortMethod')
+        activeTab = self.request.get('activeTab')        
         if lens is not None:       
             self.render('lensPage.html', 
                 lens = lens,
@@ -34,6 +36,8 @@ class lensInfo(MainHandler):
                 userComment = renderClasses.userComment(lensID, localUser),               
                 comments = renderClasses.threeColumns(lensID, localUser, sortMethod=sortMethod),
                 activePill = renderClasses.activePill(sortMethod),
+                activeTab = renderClasses.activeTab(activeTab),
+                uses = renderClasses.lensUses(lensID),
                 lensStatus = userBag.lensStatus(localUser, lensID = lensID))
         else:
             self.redirect('/')
@@ -41,8 +45,8 @@ class lensInfo(MainHandler):
     def post(self, lensID):
         if 'userUse' in self.request.POST:
             userInput = self.request.get('newUse')
-            database.newUse(lensID=lensID, use = userInput)
-            self.redirect('/lens/%s' % lensID)
+            lensUses.newUse(lensID=lensID, use = userInput)
+            self.redirect('/lens/%s?activeTab=uses' % lensID)
         elif 'userImpression' in self.request.POST:
             impression = self.request.get('newImpression')
             reviewLink = self.request.get('reviewLink')         

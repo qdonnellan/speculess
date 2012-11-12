@@ -62,4 +62,16 @@ def sortLenses(lensList, sortMethod=None):
 
 	return lensList
 
+def sortUses(allUsesObject):
+	tempTuple = []
+	for use in allUsesObject:
+		tempTuple.append([use.count, use])
+	tempTuple = sorted(tempTuple, key=operator.itemgetter(0), reverse = True)
+
+	useList = []
+	for use in tempTuple:
+		useList.append(use[1])
+
+	return useList
+
 

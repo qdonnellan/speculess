@@ -2,13 +2,13 @@
 {% block body %}
 
 <ul id="myTab" class="nav nav-tabs">
-  <li class="{{activeTab.personalLI}}"><a href="#personalInfo" data-toggle="tab">Personal Information</a></li>
+  <li class="{{activeTab.defaultLI}}"><a href="#personalInfo" data-toggle="tab">Personal Information</a></li>
   <li class="{{activeTab.haveLI}}"><a href="#lensBag" data-toggle="tab">Lens Bag</a></li>
   <li class="{{activeTab.wishLI}}"><a href="#wishList" data-toggle="tab">Wish List</a></li>
   <li class="{{activeTab.impressionsLI}}"><a href="#yourImpressions" data-toggle="tab">Impressions</a></li>    
 </ul>
 <div id="myTabContent" class="tab-content">
-  <div class="tab-pane fade {{activeTab.personal}}" id="personalInfo">
+  <div class="tab-pane fade {{activeTab.default}}" id="personalInfo">
     <div class="row">
       <div class="span6 pull-right" style="text-align:center">
         <img  src = "{{thisUser.imgsrc}}" style="max-height:280px">

@@ -1,11 +1,12 @@
 from comments import getUserComment, getAllUserComments
 from lensList import lensList
-from sorter import sortComments
+from sorter import sortComments, sortUses
 from userBag import getUserBagList
 from likeObjects import getUserRating, userLikedObject, getObjectLikes
 from localUsers import getNickname
 from lensStats import getLensStats, getTotalLensInstances
 from lensOps import getLens
+from lensUses import getAllUses
 import logging
 
 def appendStats(lensList):
@@ -79,19 +80,23 @@ class lensStats():
 
 class activeTab():
 	def __init__(self,activeTab):
-		tabDict = {'have':'', 'wish':'', 'impressions':'', 'personal':''}
+		tabDict = {'have':'', 'wish':'', 'impressions':'', 'personal':'', 'default':'', 'uses':''}
 		if activeTab in tabDict:
 			tabDict[activeTab] = 'active'
 		elif activeTab == '' or activeTab not in tabDict:
-			tabDict['personal'] = 'active'
+			tabDict['default'] = 'active'
 
 		self.haveLI = tabDict['have']
 		self.wishLI = tabDict['wish']
 		self.impressionsLI = tabDict['impressions']
 		self.personalLI = tabDict['personal']
+		self.defaultLI = tabDict['default']
+		self.usesLI = tabDict['uses']
 
 		self.have = 'in ' + tabDict['have']
 		self.wish = 'in ' + tabDict['wish']
+		self.default = 'in ' + tabDict['default']
+		self.uses = 'in ' + tabDict['uses']
 		self.impressions = 'in ' +  tabDict['impressions']
 		self.personal = 'in ' +  tabDict['personal']	
 
@@ -161,5 +166,18 @@ class makeAlerts():
             self.successDisplay = 'visible'
         else:
             self.successDisplay = 'none'
+
+class lensUses():
+	def __init__(self, lensID):
+		allUses = getAllUses(lensID)
+		self.uses = sortUses(allUses)
+		
+		self.source = ""
+		for use in getAllUses():
+			self.source += '"%s",' % use.lensUse
+		self.source = '[%s " "]' % self.source
+		
+
+
 
 
