@@ -2,14 +2,98 @@
 {% block body %}
 	<div class = "row-fluid">		
 		<div class="span9">
-			<h3>User Impressions<small> what the community thinks about this lens</small></h3>
+			<ul id="myTab" class="nav nav-tabs">
+			  <li class="{{activeTab.defaultLI}}"><a href="#impressionsTab" data-toggle="tab">Impressions</a></li>
+			  <li class="{{activeTab.usesLI}}"><a href="#usesTab" data-toggle="tab">Uses</a></li>    
+			</ul>
+			<div id="myTabContent" class="tab-content">
+				<div class="tab-pane fade {{activeTab.default}}" id="impressionsTab">
+					<div class="row-fluid">
+						<h3>User Impressions<small> what the community thinks about this lens</small></h3>
+						<div class="row-fluid">
+							<!-- Button to trigger modal for user impression -->
+							<a href="#myModal" role="button" class="btn btn-primary pull-left" data-toggle="modal" style="display:{{ localUser.displayUser}}">
+								<span style="display:{{userComment.displayAlt}}">Add your own impression</span>
+								<span style="display:{{userComment.display}}">Change your existing impression</span>
+							</a>
+							<ul class="nav nav-pills pull-right">
+								<li class="{{activePill.rated}}">
+									<a href="/lens/{{lens.id}}">Top Rated</a>
+								</li>
+								<li class="{{activePill.random}}">
+									<a href="/lens/{{lens.id}}?sortMethod=random">Random</a>
+								</li>
+								<li class="{{activePill.latest}}">
+									<a href="/lens/{{lens.id}}?sortMethod=latest">Latest</a>
+								</li>
+							</ul>				
+						</div>
+						<div style="margin-top:20px">
+							{% for column in comments.columns %}
+								<div class="span4">
+									<ul class="thumbnails">				
+										{% for comment in column %}
+										<li class = "thumbnail span12">
+											<div>	
+												<span class="muted" style="font-size:8pt">{{ comment.time}}</span>				
+												<div class="commentCard">									
+													{{ comment.comment }}					
+												</div>
+												<div style="margin:10px; text-align:right">
+													<div class="btn-group" style="display:{{localUser.displayUser}}">
+														<a class="btn btn-mini {{comment.buttonStyle}}" rel="tooltip" data-placement="bottom" 
+														title="{{comment.buttonTooltip}}" href="/like/lens/{{lens.id}}/{{comment.userID}}">impressed</a>			
+														<a class="btn btn-mini disabled">{{comment.count}}</a>
+													</div>
+													<div class="btn-group" style="display:{{localUser.displayAlt}}">
+														<button class="btn btn-mini disabled" rel="tooltip" data-placement="bottom" title="Sign in or create account to recommend impressions">
+															impressed
+														</button>
+														<button class="btn btn-mini disabled">{{comment.count}}</button>
+													</div>
+												</div>
+											</div>
+											<div style="margin:0px -5px -5px -5px; background:#111; padding:8px">							
+												<p class="frontNailCardName">
+													<a href="/profile/{{comment.userID}}?activeTab=impressions">{{comment.userNickname}} ({{ comment.userRating}})</a>
+												</p>
+												<p class="frontNailCardInfo" >
+													<a class="btn btn-small btn-inverse" href="{{comment.reviewLink}}" style="display:{{comment.reviewDisplay}}" target="_blank">Read the full review</a>
+												</p>								
+											</div>
+										</li>
+										{% endfor %}				
+									</ul>
+								</div>	
+							{% endfor %}			
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane fade {{activeTab.uses}}" id="usesTab">
+					<div class="row-fluid">
+						<h3>Lens Uses<small> what the community uses this lens for</small></h3>
+						<form class="form-inline" method="post" style="display:{{localUser.displayUser}}">
+							<label>You primarily use this lens for:						
+								<input type="text" name = "newUse" style="margin: 0 auto;" onblur="textCounter(this,this.form.counter,20);" onkeyup="textCounter(this,this.form.counter,20);" data-provide="typeahead" data-items="4" data-source='{{uses.source |safe}}' value="{{oldUse}}" placeholder="20 characters max">
+								<div class="btn-group">	
+									<input class="btn disabled" onblur="textCounter(this.form.recipients,this,20);" disabled  onfocus="this.blur();" value="20" name="counter" style="width:30px; padding-left:2px; padding-right:2px">
+									<input class="btn btn-success" name = "userUse" type="submit" value="Save">
+								</div>
+							</label>
+						</form>	
+						<div>
+							{% for use in uses.uses %}
+							<div class="pull-left commentCard" style="background:#111; color:white; margin:3px;">
+								{{ use.lensUse }} <span class="muted">&times {{use.count}}</span>
+							</div>
+							{% endfor %}
 
-			<!-- Button to trigger modal -->
-			<a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal" style="display:{{ localUser.displayUser}}">
-				<span style="display:{{userComment.displayAlt}}">Add your own impression</span>
-				<span style="display:{{userComment.display}}">Change your existing impression</span>
-			</a> 
-			<!-- Modal -->
+						</div>				
+					</div>
+				</div>
+			</div>
+			 
+			<!-- Modal for User Impressions-->
 			<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -20,7 +104,7 @@
 					<div class="modal-body">					
 							<label><strong>In less than 200 characters,</strong> tell us what you think about this lens</label>
 							
-							<textarea row="10" class="span12" name="newImpression" onblur="textCounter(this,this.form.counter,200);" onkeyup="textCounter(this,this.form.counter,200);">{{ userComment.comment }}</textarea>	
+							<textarea rows="4" class="span12" name="newImpression" onblur="textCounter(this,this.form.counter,200);" onkeyup="textCounter(this,this.form.counter,200);">{{ userComment.comment }}</textarea>	
 							<input class="btn btn-primary disabled" onblur="textCounter(this.form.recipients,this,200);" disabled  onfocus="this.blur();" value="200" name="counter" style="width:30px; padding:2px ">
 							<span class="muted">characters remaining</span>
 							<span class="text-error" style="display:{{ userComment.display }}"> leave blank to delete existing comment</span>
@@ -34,36 +118,7 @@
 							<button class="btn btn-primary" name="userImpression" type="submit">Save Impression</button>					
 					</div>
 				</form>
-			</div>	
-			<div style="margin-top:20px">
-				{% for column in comments.columns %}
-				<div class="span4">
-					<ul class="thumbnails">				
-						{% for comment in column %}
-						<li class = "thumbnail span12">					
-							<div class="commentCard">
-								{{ comment.comment }}
-							</div>
-							<div style="margin:0px -5px -5px -5px; background:#111; padding:8px">
-								<div class="pull-right" style="text-align:center">
-									<p class="text-warning" style="font-family: 'Open Sans Condensed', sans-serif; font-size:20pt;">
-										{{comment.count}}
-									</p>
-									<a class="btn btn-mini {{comment.buttonStyle}}" rel="tooltip" data-placement="bottom" 
-									title="{{comment.buttonTooltip}}" href="/like/lens/{{lens.id}}/{{comment.userID}}" style="display: {{ localUser.displayUser }}">Like</a>
-								</div>
-								<p class="frontNailCardName">{{comment.userNickname}} ({{ comment.userRating}})</p>
-								<p class="frontNailCardInfo" >
-									<a class="btn btn-small btn-inverse" href="{{comment.reviewLink}}" style="display:{{comment.reviewDisplay}}" target="_blank">Read the full review</a>
-									<span style="color:#111">.</span>
-								</p>								
-							</div>
-						</li>
-						{% endfor %}				
-					</ul>
-				</div>	
-				{% endfor %}			
-			</div>	
+			</div>				
 		</div>
 		<div class="span3">			
 			<div>

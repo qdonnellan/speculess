@@ -12,11 +12,18 @@ def newUse(lensID, use):
 	memcache.set(lensID + '|' + use, useObject)
 	memcache.delete('uses' + lensID)
 
-def getAllUses(lensID):
-	allUses = memcache.get('uses' + lensID)
-	if allUses is None:
-		allUses = lensUses.all().filter('lensID = ', lensID)
-		memcache.set('uses' + lensID, allUses)
+def getAllUses(lensID = None):
+	if lensID is not None:
+		allUses = memcache.get('uses' + lensID)
+		if allUses is None:
+			allUses = lensUses.all().filter('lensID = ', lensID)
+			memcache.set('uses' + lensID, allUses)
+
+	else:
+		allUses = memcache.get('absolutelyAllUses')
+		if allUses is None:
+			allUses = lensUses.all()
+			memcache.set('absolutelyAllUses', allUses)
 	return allUses
 
 def getSpecificUse(lensID, use):
