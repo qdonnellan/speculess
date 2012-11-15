@@ -41,6 +41,7 @@ lensList.append(newLens(
 	color = 'black',
 	ident = 1000,
 	born = 2012.0917,
+	bh='http://www.bhphotovideo.com/c/product/892512-REG/Olympus_v312010bu000_MSC_ED_M_60mm_f_2_8.html',
 	amazon = 'http://www.amazon.com/Olympus-MSC-60mm-2-8-Lens/dp/B0096WDK0K/ref=sr_1_3?ie=UTF8&qid=1352209742&sr=8-3&keywords=60mm+macro'
 	))
 
@@ -61,6 +62,7 @@ lensList.append(newLens(
 	focus = '17',
 	aperture = '1.8',
 	color = 'unknown',
+	born = 2012.12,
 	ident= 1002
 	))
 
@@ -68,6 +70,7 @@ lensList.append(newLens(
 	name = 'M.Zuiko Digital ED 9-18mm f/4.0-5.6', 
 	man = 'O',
 	ident= 1003,
+	born = 2012.0203,
 	amazon= 'http://www.amazon.com/Olympus-M-Zuiko-9-18mm-4-0-5-6-Black/dp/B004F7IH0O/'
 	))
 
@@ -75,6 +78,7 @@ lensList.append(newLens(
 	name = 'M.Zuiko Digital ED 14-42mm f/3.5-5.6', 
 	man = 'O',
 	ident= 1004,
+	born = 2009.0616,
 	amazon= 'http://www.amazon.com/Olympus-14-42mm-3-5-5-6-Digital-Black/dp/B002CGSYLW/'
 	))
 
@@ -82,6 +86,7 @@ lensList.append(newLens(
 	name = 'M.Zuiko Digital ED 12-50mm f/3.5-6.3', 
 	man = 'O',
 	ident= 1005,
+	born = 2011.1214,
 	amazon = 'http://www.amazon.com/Olympus-M-ZUIKO-DIGITAL-F3-5-6-3-V314040BU000/dp/B0073AIXOA'
 	))
 
@@ -89,6 +94,7 @@ lensList.append(newLens(
 	name = 'M.Zuiko Digital 14-42mm f/3.5-6.3 II R', 
 	man = 'O',
 	ident= 1006,
+	born = 2011.0630,
 	amazon = 'http://www.amazon.com/Zuiko-Digital-14-42mm-3-5-5-6--Black/dp/B005AHKY0O/'
 	))
 
@@ -96,6 +102,7 @@ lensList.append(newLens(
 	name = 'M.Zuiko Digital 14-42mm f/3.5-6.3 II', 
 	man = 'O',
 	ident= 1007,
+	born = 2010.1116,
 	amazon = 'http://www.amazon.com/gp/product/B00866SCTG/'
 	))
 
@@ -103,6 +110,7 @@ lensList.append(newLens(
 	name = 'M.Zuiko Digital ED 14-150mm f/4.0-5.6', 
 	man = 'O',
 	ident= 1008,
+	born = 2010.0203,
 	amazon = 'http://www.amazon.com/Olympus-ED-14-150mm-Panasonic-Interchangeable/dp/B0035LBRMQ/'
 	))
 
@@ -110,6 +118,7 @@ lensList.append(newLens(
 	name = 'M.Zuiko Digital ED 40-150mm f/4.0-5.6', 
 	man = 'O',
 	ident= 1009,
+	born = 2010.0831,
 	amazon = 'http://www.amazon.com/Olympus-M-Zuiko-40-150mm-4-0-5-6-Digital/dp/B004EEL3HW'
 	))
 
@@ -117,6 +126,7 @@ lensList.append(newLens(
 	name = 'M.Zuiko Digital ED 40-150mm f/4.0-5.6 R', 
 	man = 'O',
 	ident= 1010,
+	born = 2011.0630,
 	amazon = 'http://www.amazon.com/Olympus-M-Zuiko-40-150mm-4-0-5-6-Digital/dp/B0066J6EOU/'
 	))
 
@@ -124,6 +134,7 @@ lensList.append(newLens(
 	name = 'M.Zuiko Digital ED 75-300mm f/4.8-6.7 R', 
 	man = 'O',
 	ident= 1011,
+	born = 2010.0831,
 	amazon = 'http://www.amazon.com/Olympus-M-Zuiko-75-300mm-4-8-6-7-Digital/dp/B00492GLFS/'
 	))
 
@@ -139,6 +150,7 @@ lensList.append(newLens(
 	name = 'M.Zuiko Digital 17mm f/2.8', 
 	man = 'O',
 	ident= 1013,
+	born = 2009.0616,
 	amazon = 'http://www.amazon.com/Olympus-M-Zuiko-17mm-Lens-Black/dp/B004IK8F32/'
 	))
 
@@ -146,6 +158,7 @@ lensList.append(newLens(
 	name = 'M.Zuiko Digital 45mm f/1.8', 
 	man = 'O',
 	ident= 1014,
+	born = 2011.0230,
 	amazon = 'http://www.amazon.com/Olympus-Zuiko-Digital-Thirds-Cameras/dp/B0058PL9QG/'
 	))
 
@@ -153,6 +166,7 @@ lensList.append(newLens(
 	name = 'M.Zuiko Digital ED 75mm f/1.8', 
 	man = 'O',
 	ident= 1015,
+	born = 2012.0208,
 	amazon = 'http://www.amazon.com/Olympus-M-ZUIKO-DIGITAL-High-Grade-Portrait/dp/B00836JHVQ'
 	))
 

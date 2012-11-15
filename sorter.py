@@ -58,8 +58,6 @@ def sortLenses(lensList, sortMethod=None):
 		lensList = []
 		for lens in tempTuple:
 			lensList.append(lens[3])
-
-
 	return lensList
 
 def sortUses(allUsesObject):
@@ -71,7 +69,6 @@ def sortUses(allUsesObject):
 	useList = []
 	for use in tempTuple:
 		useList.append(use[1])
-
 	return useList
 
 

@@ -31,7 +31,10 @@ def formatComment(comment, localUser):
 	else:
 		comment.buttonStyle = 'btn'
 		comment.buttonTooltip = 'Is this impression useful? Click to recommend'
-	comment.time = comment.created.strftime('%d %h %Y')
+	if comment.created is not None:
+		comment.time = comment.created.strftime('%d %h %Y')
+	else:
+		comment.time = '0'
 	return comment
 
 
