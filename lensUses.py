@@ -1,75 +1,73 @@
-from database import lensUses
+from database import lensUses, userLensBag
 from userBag import getBagInstance
 from google.appengine.api import memcache
 import operator
-
-def newUse(lensID, use):
-	useObject = getSpecificUse(lensID, use)	
-	if useObject is not None:
-		useObject.count += 1
-	else:
-		useObject = lensUses(lensUse = use, count = 1, lensID = lensID)
-	useObject.put()
-	memcache.set(lensID + '|' + use, useObject)
-	memcache.delete('uses' + lensID)
+import logging
 
 def getUserUses(userID, lensID):
 	userBag = getBagInstance(userID, lensID)
-	lensUses = userBag.lensUses
-	if lensUses:
-		allUses = lensUses.split('|')
 	useList = []
-	for use in allUses:
-		if use:
-			useList.append(use)
+	if userBag:
+		lensUses = userBag.lensUses
+		if lensUses:
+			allUses = lensUses.split('|')		
+		for use in allUses:
+			if use:
+				useList.append(use)
 	return useList
 
 def setUserUses(userID, lensID, newUses):
-	#newUses is a list with 3 elements		
-	useString = '%s|%s|%s' % (newUses[0:3])
-	userBag = getBagInstance(userID, lensID)
-	userBag.lensUses = useString
-	userBag.put()
-	getBagInstance(userID, lensID, update = True)
-
-def getLensUses(lenID, update = False):
-	allInstances = userLensBag.all().filter('lensID =', lensID)
-	usesList = []
-	for bagInstance in allInstances:
-		if bagInstance.lensUses:
-			thisInstancesUses = bagInstance.lensUses.split('|')
-			for use in thisInstancesUses:
-				usesList.append(use)
-	return usesList
-
-def getAllUses(lensID = None):
-	if lensID is not None:
-		allUses = memcache.get('uses' + lensID)
-		if allUses is None:
-			allUses = lensUses.all().filter('lensID = ', lensID)
-			memcache.set('uses' + lensID, allUses)
-
+	#newUses is a list
+	useString = ''
+	for use in newUses:
+		useString += use + '|'
+	bagInstance = getBagInstance(userID, lensID)
+	if bagInstance is None:
+		bagInstance = userLensBag(
+				userID = userID, 
+				bagStatus = 'clearStatus',
+				lensID = lensID,
+				lensUses = useString)
+		bagInstance.put()
 	else:
-		allUses = memcache.get('absolutelyAllUses')
-		if allUses is None:
-			allUses = lensUses.all()
-			memcache.set('absolutelyAllUses', allUses)
-	return allUses
+		bagInstance.lensUses = useString
+		bagInstance.put()
+	
+	getBagInstance(userID, lensID, update = True)
+	getLensUses(lensID, update = True)
 
-def getSpecificUse(lensID, use):
-	specificUse = memcache.get(lensID + '|' + use )
-	if specificUse is None:
-		specificUse = lensUses.all().filter('lensID = ', lensID).filter('lensUse = ', use).get()
-		memcache.set(lensID + '|' + use, specificUse)
-	return specificUse
+def getLensUses(lensID, update = False):
+	thisLensUses =  memcache.get('lensUsesFor' + lensID)
+	if thisLensUses is None or update:
+		allInstances = userLensBag.all().filter('lensID =', lensID)
+		usesList = []
+		for bagInstance in allInstances:
+			if bagInstance.lensUses:
+				thisInstancesUses = bagInstance.lensUses.split('|')
+				for use in thisInstancesUses:
+					if use is not None and use != '':
+						usesList.append(use)
+		thisLensUses = allUses(usesList).allUses
+		memcache.set('lensUsesFor' + lensID,thisLensUses)
+	return thisLensUses
+
+class allUses():
+	def __init__(self,useList):
+		useMap = {}
+		for use in useList:
+			if use in useMap:
+				useMap[use].count+=1
+			else:
+				useMap[use] = lensUse(use)
+		self.allUses = useMap.values()
+
+		
+
+class lensUse():
+	def __init__(self,useName):
+		self.lensUse = useName
+		self.count = 1
 
 
-class createUseClass():
-	def __init__(self, useObject, totalUses):
-		self.count = useObject.count
-		percentUsed = 1.*useObject.count/totalUses *100
-		percentUsedString = '%s' % int(percentUsed)
-		self.percent = percentUsedString
-		self.useName = useObject.lensUse
 
 

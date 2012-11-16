@@ -38,14 +38,16 @@ class lensInfo(MainHandler):
                 activePill = renderClasses.activePill(sortMethod),
                 activeTab = renderClasses.activeTab(activeTab),
                 uses = renderClasses.lensUses(lensID),
+                userUses = renderClasses.userUses(lensID, localUser),
                 lensStatus = userBag.lensStatus(localUser, lensID = lensID))
         else:
             self.redirect('/')
 
     def post(self, lensID):
         if 'userUse' in self.request.POST:
-            userInput = self.request.get('newUse')
-            lensUses.newUse(lensID=lensID, use = userInput)
+            localUser = localUsers.localUser() 
+            use1 = self.request.get('newUse')
+            lensUses.setUserUses(userID = localUser.id, lensID=lensID, newUses = [use1,'',''])
             self.redirect('/lens/%s?activeTab=uses' % lensID)
         elif 'userImpression' in self.request.POST:
             impression = self.request.get('newImpression')

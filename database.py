@@ -14,10 +14,9 @@ class lensComments(db.Model):
 
 class userLensBag(db.Model):
 	userID = db.StringProperty(required = True)
-	bagStatus = db.StringProperty(required = True)
+	bagStatus = db.StringProperty(required = False)
 	lensUses = db.StringProperty(required = False)
 	lensID = db.StringProperty(required = True)
-	user = db.StringProperty(required = False)
 
 class appUsers(db.Model):
 	userID = db.StringProperty(required = True)

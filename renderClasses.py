@@ -6,7 +6,7 @@ from likeObjects import getUserRating, userLikedObject, getObjectLikes
 from localUsers import getNickname
 from lensStats import getLensStats, getTotalLensInstances
 from lensOps import getLens
-from lensUses import getAllUses
+from lensUses import getLensUses, getUserUses
 import logging
 
 def appendStats(lensList):
@@ -36,6 +36,20 @@ def formatComment(comment, localUser):
 	else:
 		comment.time = '0'
 	return comment
+
+class userUses():
+	def __init__(self,lensID, localUser):
+		if localUser.exists:
+			uses = getUserUses(localUser.id, lensID)
+			threeUses = ['','','']
+			i = 0
+			for use in uses:
+				if i < 3 and use != '' and use is not None:
+					threeUses[i] = use
+				i += 1
+			self.first = threeUses[0]
+			self.second = threeUses[1]
+			self.third = threeUses[1]
 
 
 class userComment():
@@ -172,11 +186,11 @@ class makeAlerts():
 
 class lensUses():
 	def __init__(self, lensID):
-		allUses = getAllUses(lensID)
+		allUses = getLensUses(lensID)
 		self.uses = sortUses(allUses)
 		
 		self.source = ""
-		for use in getAllUses():
+		for use in allUses:
 			self.source += '"%s",' % use.lensUse
 		self.source = '[%s " "]' % self.source
 		
