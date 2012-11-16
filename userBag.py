@@ -42,8 +42,6 @@ def updateUserBag(userID, fetch = False):
 	if fetch:
 		return cachedBag
 
-
-
 def getUserBagList(userID):
 	cacheKey = userBagCacheKey(userID)
 	userBag = memcache.get(cacheKey)

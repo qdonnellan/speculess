@@ -1,4 +1,5 @@
 from database import lensUses
+from userBag import getBagInstance
 from google.appengine.api import memcache
 import operator
 
@@ -11,6 +12,35 @@ def newUse(lensID, use):
 	useObject.put()
 	memcache.set(lensID + '|' + use, useObject)
 	memcache.delete('uses' + lensID)
+
+def getUserUses(userID, lensID):
+	userBag = getBagInstance(userID, lensID)
+	lensUses = userBag.lensUses
+	if lensUses:
+		allUses = lensUses.split('|')
+	useList = []
+	for use in allUses:
+		if use:
+			useList.append(use)
+	return useList
+
+def setUserUses(userID, lensID, newUses):
+	#newUses is a list with 3 elements		
+	useString = '%s|%s|%s' % (newUses[0:3])
+	userBag = getBagInstance(userID, lensID)
+	userBag.lensUses = useString
+	userBag.put()
+	getBagInstance(userID, lensID, update = True)
+
+def getLensUses(lenID, update = False):
+	allInstances = userLensBag.all().filter('lensID =', lensID)
+	usesList = []
+	for bagInstance in allInstances:
+		if bagInstance.lensUses:
+			thisInstancesUses = bagInstance.lensUses.split('|')
+			for use in thisInstancesUses:
+				usesList.append(use)
+	return usesList
 
 def getAllUses(lensID = None):
 	if lensID is not None:
@@ -33,28 +63,6 @@ def getSpecificUse(lensID, use):
 		memcache.set(lensID + '|' + use, specificUse)
 	return specificUse
 
-def getUseStats(lensID):
-	lensUses = getAllUses(lensID)
-	totalUses = 0
-	for use in lensUses:
-		totalUses += use.count
-	sortedUses = sorted(lensUses, key=operator.attrgetter('count'), reverse = True)
-	topUses = sortedUses[0:min(10,len(sortedUses))]
-	topUseList = []
-	for use in topUses:
-		topUseList.append(createUseClass(use, totalUses))
-	return topUseList
-
-def getRefinedUseList(lensID):
-	useList = getUseStats(lensID)
-	bigPercent = []
-	smallPercent = []
-	for use in useList:
-		if int(use.percent) > 60:
-			bigPercent.append(use)
-		else:
-			smallPercent.append(use)
-	return bigPercent, smallPercent
 
 class createUseClass():
 	def __init__(self, useObject, totalUses):
