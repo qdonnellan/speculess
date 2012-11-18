@@ -11,9 +11,9 @@ def getUserUses(userID, lensID):
 		lensUses = userBag.lensUses
 		if lensUses:
 			allUses = lensUses.split('|')		
-		for use in allUses:
-			if use:
-				useList.append(use)
+			for use in allUses:
+				if use:
+					useList.append(use)
 	return useList
 
 def setUserUses(userID, lensID, newUses):

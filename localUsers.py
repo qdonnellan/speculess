@@ -124,7 +124,7 @@ class localUser():
 			self.rating = existingUser.rating
 			self.logoutUrl = users.create_logout_url("/")
 			self.imgsrc = existingUser.imgsrc
-			if self.imgsrc is None or self.imgsrc == '':
+			if self.imgsrc is None or self.imgsrc == '' or self.imgsrc == 'None':
 				self.imgsrc = 'http://placehold.it/280x280'
 			
 

@@ -74,7 +74,7 @@
 						<h3>Lens Uses<small> what the community uses this lens for</small></h3>
 						<form class="form-inline" method="post" style="display:{{localUser.displayUser}}">
 							<label>You primarily use this lens for:	
-								<input type="text" name = "newUse" style="margin: 0 auto;" onblur="textCounter(this,this.form.counter,20);" onkeyup="textCounter(this,this.form.counter,20);" data-provide="typeahead" data-items="4" data-source='{{uses.source |safe}}' placeholder="20 characters max">
+								<input type="text" name = "newUse" style="margin: 0 auto;" onblur="textCounter(this,this.form.counter,20);" onkeyup="textCounter(this,this.form.counter,20);" data-provide="typeahead" data-items="4" data-source='{{uses.source |safe}}' placeholder="20 characters max" value="{{userUses.first}}">
 								<div class="btn-group">	
 									<input class="btn disabled" onblur="textCounter(this.form.recipients,this,20);" disabled  onfocus="this.blur();" value="20" name="counter" style="width:30px; padding-left:2px; padding-right:2px">
 									<input class="btn btn-success" name = "userUse" type="submit" value="Save">
