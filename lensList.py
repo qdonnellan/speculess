@@ -25,7 +25,7 @@ class newLens():
 
 
 def manRef(reference):
-	mannyMap = {'O': 'Olympus', 'P': 'Panasonic', 'S':'Sigma'}
+	mannyMap = {'O': 'Olympus', 'P': 'Panasonic', 'S':'Sigma', 'C':'Cosina', 'T':'Tokina'}
 	return mannyMap[reference]
 			
 lensList = []
@@ -305,4 +305,48 @@ lensList.append(newLens(
 
 # Sigma Lenses
 #--------------------------------
+lensList.append(newLens(
+	name = '19mm f/2.8 EX DN', 
+	man = 'S',
+	ident= 1000,
+	born = 2012.0110,
+	amazon = 'http://www.amazon.com/Sigma-19mm-F2-8--Micro-400963/dp/B007F7G6WW/'
+	))
+
+lensList.append(newLens(
+	name = '30mm f/2.8 EX DN', 
+	man = 'S',
+	ident= 1001,
+	born = 2012.0110,
+	amazon = 'http://www.amazon.com/Sigma-30mm-F2-8-Micro-330963/dp/B0076F3RS4'
+	))
+
+# Cosina Lenses
+#---------------------------------
+lensList.append(newLens(
+	name = 'Nokton 17.5mm f/0.95', 
+	man = 'C',
+	ident= 1000,
+	born = 2012.0208,
+	amazon = 'http://www.amazon.com/Voigtlander-Nokton-17-5mm-Manual-Focus/dp/B007VHDUN4'
+	))
+
+lensList.append(newLens(
+	name = 'Nokton 25mm f/0.95', 
+	man = 'C',
+	ident= 1001,
+	born = 2010.0826,
+	amazon = 'http://www.amazon.com/Voigtlander-Nokton-Manual-Focus-Micro/dp/B0046EC1OE'
+	))
+
+# Tokina Lenses
+#---------------------------------
+
+lensList.append(newLens(
+	name = '300mm f/6.3 Reflex MF Macro', 
+	man = 'T',
+	ident= 1000,
+	born = 2012.0401,
+	amazon = 'http://www.amazon.com/Tokina-Reflex-Olympus-Panasonic-Cameras/dp/B008U9V7P0/'
+	))
 
