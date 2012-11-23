@@ -111,7 +111,7 @@ class userProfile(MainHandler):
                         thisUser = thisUser,
                         displaySecureAlt = 'visible')
 
-    def post(self):
+    def post(self, userID = None):
         if 'userImpression' in self.request.POST:
             impression = self.request.get('newImpression')
             reviewLink = self.request.get('reviewLink') 
@@ -131,10 +131,10 @@ class userProfile(MainHandler):
             else:
                 self.redirect('/profile?error=%s' % error)
 
-
 class aboutPage(MainHandler):
     def get(self):
         self.render('about.html', aboutActive = 'active')
+
 
 class userAuth(MainHandler):
     def get(self):
@@ -151,7 +151,6 @@ class userAuth(MainHandler):
 
         else:
             self.render('signUpPage.html', loginUrl = users.create_login_url('/authenticate?setup=True'))
-
 
         
 app = webapp2.WSGIApplication([

@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="">
+		<meta name="description" content="A social approach to the micro four thirds photography platform">
     	<meta name="author" content="">
 		<link href = "/stylesheets/bootstrap.css" rel="stylesheet">
 		<link href = "/stylesheets/docs.css" rel="stylesheet">
@@ -29,7 +29,17 @@
 		<!-- end Google Analytics -->
 		<title>speculess</title>
 	</head>
-	<body>		
+	<body>
+	<!-- Facebook script -->
+	<div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>	
+	<!-- end facebook -->	
 		<div class="navbar navbar-fixed-top navbar-inverse">
 			<div class="navbar-inner">
 				<div class="container">
@@ -77,11 +87,34 @@
 
 		<footer class="footer">
 			<div class="container">
-				<p class="muted">
-					Experimental version of speculess, best on a <a href="http://www.whatbrowser.org" target="_blank">modern browser</a>
-				</p>
+				<div class="row-fluid">
+					<div class="span8">
+						<p class="muted">
+							Experimental version of speculess, best on a <a href="http://www.whatbrowser.org" target="_blank">modern browser</a>							
+						</p>
+						<a href="#myModal1" role="button" data-toggle="modal">Feedback</a>
+					</div>
+					<div class="pull-right span4" style="padding:0">
+						
+						<a href="https://twitter.com/share" class="twitter-share-button span4" data-url="http://www.speculess.com" data-text="A social approach to the micro four thirds photography platform" style="margin-left:20px">Tweet</a>
+						<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+						</script>
+						<!-- Place this tag where you want the +1 button to render. -->
+						<div class="g-plusone span4" data-href = "http://www.speculess.com" data-size="medium" style="margin-right:20px"></div>
+						<div class="fb-like span4" data-href="http://www.speculess.com" data-send="false" data-layout="button_count" data-width="90" data-show-faces="false" ></div>
+					</div>
+				</div>
+
+				<!-- Place this tag after the last +1 button tag. -->
+				<script type="text/javascript">
+				  (function() {
+				    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+				    po.src = 'https://apis.google.com/js/plusone.js';
+				    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+				  })();
+				</script>
 				<!-- Button to trigger modal -->
-				<a href="#myModal1" role="button" data-toggle="modal">Feedback</a>
+				
 
 				<!-- Modal -->
 				<div id="myModal1" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
@@ -89,14 +122,20 @@
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 						<h3 id="myModalLabel1">Feedback</h3>
 					</div>
+				
 					<div class="modal-body">
-						<p>Noticed something wrong with the site? Have suggestions for new features? Do you really like something about this site? Help us out with your feedback!</p>
+						
+							<p>Noticed something wrong with the site? Have suggestions for new features? Do you really like something about this site? Help us out with your feedback!</p>
 
-						<code>this feature coming soon...</code>
+							<br>
+							Email your feedback to <a href="mailto:feedback@speculess.com" target="_blank">feedback@speculess.com</a>
+						
 					</div>
 					<div class="modal-footer">
-						<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+						<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>				
+                        <button class="btn btn-primary" name="userFeedback" type="submit">Submit Feedback</button>
 					</div>
+				
 				</div>
 			</div>
 		</footer>
