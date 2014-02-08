@@ -16,11 +16,16 @@ import logging
 import lensUses
 
 class MainPage(MainHandler):
-    def get(self):
-        lenses = renderClasses.appendStats(lensList)
+    def get(self):       
+        filterMethod = self.request.get('filterMethod')
+        lenses = renderClasses.appendStats(lensList, filterMethod = filterMethod)
         sortMethod = self.request.get('sortMethod')
         activePill = renderClasses.activePill(sortMethod)        
-        self.render('front.html', lenses=sortLenses(lenses, sortMethod), activePill = activePill, homeActive = 'active')
+        self.render('front.html', 
+            lenses=sortLenses(lenses, sortMethod), 
+            activePill = activePill, 
+            homeActive = 'active', 
+            filterMethod=filterMethod)
 
 class lensInfo(MainHandler):    
     def get(self, lensID):
@@ -59,7 +64,7 @@ class lensBag(MainHandler):
     def get(self):
         localUser = localUsers.localUser()
         changeBag = self.request.get('changeBag')
-        if changeBag is not None:
+        if changeBag is not None and localUser.exists:
             if '|' in changeBag:
                 newBagStatus, lensID = changeBag.split('|')
                 userBag.changeUserBag(localUser.id, newBagStatus, lensID)
@@ -162,4 +167,4 @@ app = webapp2.WSGIApplication([
     ('/myBag', lensBag),
     ('/about', aboutPage),
     ('.*', MainPage),
-    ],debug=True)
+    ],debug=False)

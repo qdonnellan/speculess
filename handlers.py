@@ -17,7 +17,11 @@ class MainHandler(webapp2.RequestHandler):
         return t.render(params)
     
     def render(self, template, **kw):    
-    	alert = makeAlerts(error = self.request.get('error'), success = self.request.get('success'))	
+    	alert = makeAlerts(
+    		error = self.request.get('error'), 
+    		success = self.request.get('success'),
+    		info = self.request.get('info')
+    		)	
         self.write(self.render_str(template, localUser = localUser(), alert = alert, **kw)) 
 
                

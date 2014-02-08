@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="A social approach to the micro four thirds photography platform">
+		<meta name="description" content="A dead simple lens resource for the micro four thirds system. Speculess is a comprehensive list of native lenses available for the micro 4/3 camera system populated with user impressions and a simple polling mechanism that lets you know how many photographers out there have, want, or don't want a particular lens. ">
     	<meta name="author" content="">
 		<link href = "/stylesheets/bootstrap.css" rel="stylesheet">
 		<link href = "/stylesheets/docs.css" rel="stylesheet">
@@ -30,16 +30,6 @@
 		<title>speculess</title>
 	</head>
 	<body>
-	<!-- Facebook script -->
-	<div id="fb-root"></div>
-	<script>(function(d, s, id) {
-	  var js, fjs = d.getElementsByTagName(s)[0];
-	  if (d.getElementById(id)) return;
-	  js = d.createElement(s); js.id = id;
-	  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-	  fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk'));</script>	
-	<!-- end facebook -->	
 		<div class="navbar navbar-fixed-top navbar-inverse">
 			<div class="navbar-inner">
 				<div class="container">
@@ -55,7 +45,7 @@
 					</div>
 					<a class="btn btn-success pull-right" href = "/authenticate" style="display:{{localUser.displayAlt}}">
 						sign up - sign In
-					</a>
+					</a>					
 					<div class="nav-collapse collapse">
 						<ul class="nav">
 							<li class="{{homeActive}}"><a href="/">Home</a></li>
@@ -63,6 +53,7 @@
 							<li class="{{profileActive}}" style="display:{{localUser.displayUser}}"><a href="/profile">Profile</a></li>
 						</ul>						
 					</div><!--/.nav-collapse -->
+
 				</div>
 			</div>
 	    </div>	    
@@ -88,31 +79,37 @@
 		<footer class="footer">
 			<div class="container">
 				<div class="row-fluid">
-					<div class="span8">
+					<div class="span12">
+						<div class="span6">
+							<div class = "pull-left" style="padding:4px">
+								<a href="http://pinterest.com/pin/create/button/?url=www.speculess.com&media=http%3A%2F%2Fwww.speculess.com%2Fimages%2FexpHaveWantDont.jpg&description=speculess%3A%20a%20dead%20simple%20lens%20resource%20for%20the%20micro%20four%20thirds%20system%3B%20a%20comprehensive%20list%20of%20micro%204%2F3%20lenses%3B%20a%20community%20knowledge-base%20for%20micro%204%2F3" class="pin-it-button pull-l" count-layout="none"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
+							</div>
+							<div class="pull-left" style="padding:4px">
+								<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://www.speculess.com" data-text="check out this awesome new micro four thirds lens resource!" data-related="speculess" data-count="none">Tweet</a>
+							</div>
+							<div class="pull-left" style="padding:4px">
+								<div class="g-plusone" data-href="http://www.speculess.com" data-size="medium" data-annotation="none"></div>
+							</div>
+						</div>
+							<br>
+							<hr>
 						<p class="muted">
-							Experimental version of speculess, best on a <a href="http://www.whatbrowser.org" target="_blank">modern browser</a>							
+							Speculess is not affiliated with any of the manufacturers listed on this site or the micro four thirds standard itself<br>
+							Best on a <a href="http://www.whatbrowser.org" target="_blank">modern browser</a>							
 						</p>
 						<a href="#myModal1" role="button" data-toggle="modal">Feedback</a>
+						<div class="pull-right">
+							<!-- Place this code where you want the badge to render. -->
+							<a href="//plus.google.com/109789323124674993890?prsrc=3" rel="publisher" style="text-decoration:none;display:inline-block;color:#333;text-align:center; font:13px/16px arial,sans-serif;white-space:nowrap;">
+							<img src="//ssl.gstatic.com/images/icons/gplus-64.png" alt="" style="border:0;width:64px;height:64px;"/><br />
+							<span style="font-weight:bold;">speculess</span><br /><span>on Google+</span></a>
+							<br>						
+						</div>
+						<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 					</div>
-					<div class="pull-right span4" style="padding:0">
-						
-						<a href="https://twitter.com/share" class="twitter-share-button span4" data-url="http://www.speculess.com" data-text="A social approach to the micro four thirds photography platform" style="margin-left:20px">Tweet</a>
-						<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
-						</script>
-						<!-- Place this tag where you want the +1 button to render. -->
-						<div class="g-plusone span4" data-href = "http://www.speculess.com" data-size="medium" style="margin-right:20px"></div>
-						<div class="fb-like span4" data-href="http://www.speculess.com" data-send="false" data-layout="button_count" data-width="90" data-show-faces="false" ></div>
-					</div>
+					
 				</div>
 
-				<!-- Place this tag after the last +1 button tag. -->
-				<script type="text/javascript">
-				  (function() {
-				    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-				    po.src = 'https://apis.google.com/js/plusone.js';
-				    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-				  })();
-				</script>
 				<!-- Button to trigger modal -->
 				
 
@@ -164,6 +161,22 @@
 	  }(document, 'script'));
 	</script>
 	<!-- end Viglink -->	
+
+	<!-- Google +1 Button script -->	
+
+	<!-- Place this tag after the last +1 button tag. -->
+	<script type="text/javascript">
+	  (function() {
+	    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+	    po.src = 'https://apis.google.com/js/plusone.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+	  })();
+	</script>
+
+
+	<!-- end Google +1-->
+
+	<script type="text/javascript" src="//assets.pinterest.com/js/pinit.js"></script>
 	        
 	</body>
 </html>

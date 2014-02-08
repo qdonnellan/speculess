@@ -6,10 +6,13 @@ from likeObjects import getUserRating, userLikedObject, getObjectLikes
 from localUsers import getNickname
 from lensStats import getLensStats, getTotalLensInstances
 from lensOps import getLens
-from lensUses import getLensUses, getUserUses
+from filterLens import filterLens
+from lensUses import getLensUses, getUserUses, getAllUses
 import logging
 
-def appendStats(lensList):
+def appendStats(lensList, filterMethod = None):
+	if filterMethod:
+		lensList = filterLens(lensList, filterMethod)
  	newList = []
  	for lens in lensList:
  		lens.stats = lensStats(lens.id)
@@ -35,10 +38,7 @@ def formatComment(comment, localUser):
 		comment.time = comment.created.strftime('%d %B %Y')
 	else:
 		comment.time = '0'
-	return comment
-
-
-		
+	return comment		
 
 class userUses():
 	def __init__(self,lensID, localUser):
@@ -73,14 +73,22 @@ class threeColumns():
 		comments = sortComments(lensID, sortMethod = sortMethod, numToGet = 12)
 		self.columns = [[],[],[]]
 		i = 0
+		totalComments = 0
 		for comment in comments:
 			if comment.comment != 'blank_comment':
+				totalComments += 1
 				comment = formatComment(comment, localUser)		
 				self.columns[i].append(comment)
 				if i == 2:
 					i = 0
 				else:
 					i += 1
+		if totalComments == 0:
+			self.display = 'none'
+			self.displayAlt = 'visible'
+		else:
+			self.display = 'visible'
+			self.displayAlt = 'none'
 
 class lensStats():
 	def __init__(self, lensID):
@@ -174,9 +182,10 @@ class userBag():
 		self.have = appendStats(haveList)
 
 class makeAlerts():
-    def __init__(self, error = None, success = None):
+    def __init__(self, error = None, success = None, info=None):
         self.errorMsg = error
         self.successMsg = success
+        self.infoMsg = info
         if error is not None and error != '':
             self.errorDisplay = 'visible'
         else:
@@ -187,13 +196,20 @@ class makeAlerts():
         else:
             self.successDisplay = 'none'
 
+        if info is not None and info != '':
+        	self.infoDisplay = 'visible'
+        else:
+        	self.infoDisplay = 'none'
+
 class lensUses():
 	def __init__(self, lensID):
+		#populate uses for this particular lens
 		allUses = getLensUses(lensID)
 		self.uses = sortUses(allUses)
-		
-		self.source = ""
-		for use in allUses:
+
+		#populate the source string for bootstrap typeahead
+		self.source = ""		
+		for use in getAllUses():
 			self.source += '"%s",' % use.lensUse
 		self.source = '[%s " "]' % self.source
 		

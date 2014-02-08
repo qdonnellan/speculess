@@ -28,7 +28,7 @@
 								</li>
 							</ul>				
 						</div>
-						<div>
+						<div style="display:{{comments.display}}">
 							{% for column in comments.columns %}
 								<div class="span4">
 									<ul class="thumbnails">				
@@ -66,6 +66,11 @@
 									</ul>
 								</div>	
 							{% endfor %}			
+						</div>
+						<div style="display:{{comments.displayAlt}}">
+							<p style="margin-top:100px; text-align:center" class="muted">
+								There are no user impressions for this lens yet. <a href="/authenticate">Sign up</a> and add your own impression!
+							</p>
 						</div>
 					</div>
 				</div>
@@ -170,12 +175,36 @@
 										</div>
 										<p class="vendor-name">Amazon</p>
 									</a>
+									<a class="btn btn-inverse shopping" href="{{lens.adorama}}" style="display:{{lens.adoramaDisplay}}" target = '_blank'>
+										<p class="muted buy-at">buy at</p>
+										<div class="progress">
+											<div class="bar" style="width: 100%; background:#006ab2"></div>		
+										</div>
+										<p class="vendor-name">Adorama</p>
+									</a>
+									<a class="btn btn-inverse shopping" href="{{lens.ebay}}" style="display:{{lens.ebayDisplay}}" target = '_blank'>
+										<p class="muted buy-at">buy at</p>
+										<div class="progress">
+											<div class="bar" style="width: 25%; background:#e53238"></div>
+											<div class="bar" style="width: 25%; background:#0064d2"></div>
+											<div class="bar" style="width: 25%; background:#ffbc00"></div>
+											<div class="bar" style="width: 25%; background:#5ba71b"></div>		
+										</div>
+										<p class="vendor-name">ebay</p>
+									</a>
 									<a class="btn btn-inverse shopping" href="{{lens.bh}}" style="display:{{lens.bhDisplay}}" target = '_blank'>
 										<p class="muted buy-at">buy at</p>
 										<div class="progress">
 											<div class="bar" style="width: 100%; background:#DF0101"></div>		
 										</div>
 										<p class="vendor-name">B&H</p>
+									</a>
+									<a class="btn btn-inverse shopping" href="{{lens.customShop}}" style="display:{{lens.customShopDisplay}}" target = '_blank'>
+										<p class="muted buy-at">buy at</p>
+										<div class="progress">
+											<div class="bar" style="width: 100%; background:#ccc"></div>		
+										</div>
+										<p class="vendor-name">{{lens.customShopName}}</p>
 									</a>
 								</div>		
 							</div>							
